@@ -1,0 +1,43 @@
+/* styles/Navbar.module.css */
+
+
+.nav {
+    background-color: white; /* Zmiana koloru tła na biały */
+    color: black; /* Zmiana koloru tekstu na czarny */
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Zmiana koloru linii na cieniutką, ledwo widoczną szarą */
+}
+
+.left, .right {
+    display: flex;
+    align-items: center;
+}
+
+.icon {
+    width: 24px; /* Możesz dostosować rozmiar ikony */
+    height: 24px;
+    margin-right: 10px;
+}
+
+.link {
+    margin-right: 20px;
+    cursor: pointer;
+    color: black; /* Czarny tekst dla linków */
+    text-decoration: none;
+}
+
+.button {
+    background-color: blue;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    outline: none;
+}
+
+.button:hover {
+    background-color: darkblue;
+}
