@@ -1,0 +1,25 @@
+.loginContainer {
+    display: flex;
+    height: 100vh;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+  }
+  
+  .leftSide {
+    width: 50%;
+    padding-left: 300px;  /* Dodaje padding po lewej stronie, aby odsunąć od krawędzi */
+  }
+  
+  .rightSide {
+    width: 50%;
+    padding-right: 400px;
+  }
+  .branding {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
