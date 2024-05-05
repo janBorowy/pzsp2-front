@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';  // Import useRouter
 import styles from '../styles/LoginBox.module.css';
 
 function LoginBox() {
+  const router = useRouter();  // Użycie hooka useRouter
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    // Logika logowania
+    // Logika logowania - tutaj umieść sprawdzenie danych logowania
+
+    // Zakładając, że logowanie jest udane, przekieruj do strony głównej
+    router.push('/');
   };
 
   return (
