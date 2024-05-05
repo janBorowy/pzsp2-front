@@ -22,7 +22,7 @@ const AddOffer = ({ close, submitOffer }) => {
                 <select value={myDate} className={styles.select} onChange={e => setMyDate(e.target.value)}>
                     <option value="">Wybierz termin</option>
                     <option value="środa 12-15">środa 12-15</option>
-                    <option value="czwartek 12-16">czwartek 12-16</option>
+                    <option value="czwartek 12-15">czwartek 12-15</option>
                 </select>
                 <h2>Terminy, które możesz wziąć</h2>
                 <AddPreferedDate list={list} setList={setList} />
