@@ -26,14 +26,13 @@ const AddPreferedDate = ({ list, setList }) => {
                         <option value="środa 12-15">środa 12-15</option>
                         <option value="czwartek 12-18">czwartek 12-18</option>
                     </select>
-                    <select value={rating} onChange={e => setRating(e.target.value)}>
-                        <option value="">Wybierz cenę</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
+                    <label htmlFor="rating">Wpisz cenę: </label>
+                    <input
+                        type="number"
+                        id="rating"
+                        value={rating}
+                        onChange={e => setRating(e.target.value)}
+                    />
                     <button onClick={handleDodaj}>Dodaj</button>
                 </div>
             )}
