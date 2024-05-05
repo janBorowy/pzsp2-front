@@ -16,18 +16,18 @@ const AddPreferedDate = ({ list, setList }) => {
         <div>
             {list.map((element, index) => (
                 <div key={index}>
-                    Termin: {element.date}, Ocena: {element.rating}
+                    Termin: {element.date}, Cena: {element.rating}
                 </div>
             ))}
             {list.length < 3 && (
                 <div>
                     <select value={date} onChange={e => setDate(e.target.value)}>
                         <option value="">Wybierz termin</option>
-                        <option value="środa">środa</option>
-                        <option value="czwartek">czwartek</option>
+                        <option value="środa 12-15">środa</option>
+                        <option value="czwartek 12-18">czwartek</option>
                     </select>
                     <select value={rating} onChange={e => setRating(e.target.value)}>
-                        <option value="">Wybierz ocenę</option>
+                        <option value="">Wybierz cenę</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
