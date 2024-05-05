@@ -5,7 +5,7 @@ const Navbar = () => {
     return (
         <nav className={styles.nav}>
             <div className={styles.left}>
-                <img src="/logo.jpgs" alt="Home Icon" className={styles.icon} /> {/* Zakładam, że ikona jest dostępna lokalnie */}
+                <img src="/logo.jpg" alt="Home Icon" className={styles.icon} /> {/* Zakładam, że ikona jest dostępna lokalnie */}
                 <Link href="/" className={styles.link}>Home</Link>
                 <Link href="/oferty" className={styles.link}>Oferty</Link>
             </div>
