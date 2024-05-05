@@ -23,8 +23,8 @@ const AddPreferedDate = ({ list, setList }) => {
                 <div>
                     <select value={date} onChange={e => setDate(e.target.value)}>
                         <option value="">Wybierz termin</option>
-                        <option value="środa 12-15">środa</option>
-                        <option value="czwartek 12-18">czwartek</option>
+                        <option value="środa 12-15">środa 12-15</option>
+                        <option value="czwartek 12-18">czwartek 12-18</option>
                     </select>
                     <select value={rating} onChange={e => setRating(e.target.value)}>
                         <option value="">Wybierz cenę</option>
