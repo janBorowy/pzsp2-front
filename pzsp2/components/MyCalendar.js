@@ -1,34 +1,74 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 const localizer = momentLocalizer(moment);
 
-const MyCalendar = () => {
+const MyCalendar = ({ onSelectSlot }) => {
     const [events, setEvents] = useState([]);
 
-    const handleFileChange = async (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const content = e.target.result;
-                const jsonEvents = JSON.parse(content);
-                const formattedEvents = jsonEvents.map(event => ({
-                    ...event,
-                    start: new Date(event.start),
-                    end: new Date(event.end)
-                }));
-                setEvents(formattedEvents);
+    useEffect(() => {
+        const fetchEvents = async () => {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            const hardcodedEvents = [
+                {
+                    id: 1,
+                    title: "Meeting with team",
+                    start: "2024-05-08T09:00:00",
+                    end: "2024-05-08T10:00:00",
+                    participants: ['Adam', 'Eve', 'John']
+                },
+                {
+                    id: 2,
+                    title: "Lunch with client",
+                    start: "2024-05-08T12:00:00",
+                    end: "2024-05-08T13:00:00",
+                    participants: ['Alice', 'Bob']
+                },
+                {
+                    id: 3,
+                    title: "Project discussion",
+                    start: "2024-05-09T15:00:00",
+                    end: "2024-05-09T16:00:00",
+                    participants: ['Clara', 'Dave']
+                }
+            ];
+
+            const formattedEvents = hardcodedEvents.map(event => ({
+                ...event,
+                start: new Date(event.start),
+                end: new Date(event.end)
+            }));
+            setEvents(formattedEvents);
+        };
+
+        fetchEvents();
+    }, []);
+
+    const eventStyleGetter = (event) => {
+        let style = {};
+        if (event.participants && Array.isArray(event.participants) && event.participants.includes('Adam')) {
+            style = {
+                style: {
+                    backgroundColor: 'green',
+                    color: 'white',
+                    borderRadius: '0px',
+                    border: 'none'
+                }
             };
-            reader.readAsText(file);
         }
+        return style;
+    };
+
+    const handleSelectEvent = event => {
+        onSelectSlot(event);
+        console.log('Event details:', event);
     };
 
     return (
         <div>
-            <input type="file" onChange={handleFileChange} />
             <Calendar
                 localizer={localizer}
                 events={events}
@@ -38,6 +78,8 @@ const MyCalendar = () => {
                 min={new Date().setHours(6, 0, 0)}
                 max={new Date().setHours(22, 0, 0)}
                 defaultView="week"
+                onSelectEvent={handleSelectEvent}
+                eventPropGetter={eventStyleGetter}
             />
         </div>
     );
