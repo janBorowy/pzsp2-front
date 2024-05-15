@@ -1,0 +1,58 @@
+.offer {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    padding: 30px;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 350px; /* zwiększenie szerokości */
+    height: 250px; /* zwiększenie wysokości */
+    border-radius: 10px;
+}
+
+.offer h2 {
+    margin-top: 0;
+}
+
+.offer label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.offer input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.offer button {
+    padding: 12px 24px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.offer button:hover {
+    background-color: #0056b3;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: red;
+}

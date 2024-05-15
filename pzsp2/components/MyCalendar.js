@@ -15,23 +15,23 @@ const MyCalendar = ({ onSelectSlot }) => {
             const hardcodedEvents = [
                 {
                     id: 1,
-                    title: "Meeting with team",
-                    start: "2024-05-08T09:00:00",
-                    end: "2024-05-08T10:00:00",
+                    title: "Adam, Eve, John",
+                    start: "2024-05-15T09:00:00",
+                    end: "2024-05-15T13:00:00",
                     participants: ['Adam', 'Eve', 'John']
                 },
                 {
                     id: 2,
-                    title: "Lunch with client",
-                    start: "2024-05-08T12:00:00",
-                    end: "2024-05-08T13:00:00",
+                    title: "Alice, Bob",
+                    start: "2024-05-12T09:00:00",
+                    end: "2024-05-12T13:00:00",
                     participants: ['Alice', 'Bob']
                 },
                 {
                     id: 3,
-                    title: "Project discussion",
-                    start: "2024-05-09T15:00:00",
-                    end: "2024-05-09T16:00:00",
+                    title: "Clara, Dave",
+                    start: "2024-05-13T08:00:00",
+                    end: "2024-05-13T16:00:00",
                     participants: ['Clara', 'Dave']
                 }
             ];

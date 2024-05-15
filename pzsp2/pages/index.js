@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import MyCalendar from '../components/MyCalendar';
-import DragCalendar from '../components/DragCalendar';
+import WantOfferPanel from '../components/WantOfferPanel';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import styles from '../styles/WantOfferPanel.module.css';
+import DragCalendar from '../components/DragCalendar';
 
 const HomePage = () => {
     const [events, setEvents] = useState([
@@ -19,7 +21,7 @@ const HomePage = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/api/users`);
+                const response = await fetch('http://localhost:8080/api/users');
                 const data = await response.json();
                 console.log(data);
             } catch (error) {
@@ -51,23 +53,21 @@ const HomePage = () => {
         setShowConfirm(true);  // Pokaż przycisk po kliknięciu na slot
     };
 
+    const handleOfferClose = () => {
+        setShowConfirm(false);
+    };
+
     return (
         <Layout>
             <h1>Strona główna</h1>
             <p>Witaj na stronie głównej!</p>
             <div style={{ height: 800 }}>
-                <DragCalendar onSelectSlot={handleSelectSlot} />
+                <MyCalendar onSelectSlot={handleSelectSlot} />
                 {showConfirm && (
-                    <button style={{
-                        position: 'fixed',
-                        right: '20px',
-                        bottom: '20px',
-                        padding: '10px 20px',
-                        zIndex: 1000,
-                        cursor: 'pointer'
-                    }}>Zatwierdź</button>
+                    <WantOfferPanel onClose={handleOfferClose} />
                 )}
             </div>
+            <DragCalendar />
         </Layout>
     );
 };
