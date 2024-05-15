@@ -10,19 +10,19 @@ import DragCalendar from '../components/DragCalendar';
 const HomePage = () => {
     const localizer = momentLocalizer(moment);
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const response = await fetch(`http://localhost:8080/api/users`);
-    //             const data = await response.json();
-    //             console.log(data);
-    //         } catch (error) {
-    //             console.error('Failed to fetch data:', error);
-    //         }
-    //     };
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`http://localhost:8080/api/users`);
+                const data = await response.json();
+                console.log(data);
+            } catch (error) {
+                console.error('Failed to fetch data:', error);
+            }
+        };
         
-    //     fetchData();
-    // }, []);
+        fetchData();
+    }, []);
 
     const DraggableCalendar = withDragAndDrop(Calendar);
     const [events, setEvents] = useState([

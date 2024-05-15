@@ -16,7 +16,7 @@ const DragCalendar = () => {
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
-            reader.onload = (e) => {
+            reader.onload = async (e) => {
                 const content = e.target.result;
                 const jsonEvents = JSON.parse(content);
                 const formattedEvents = jsonEvents.map(event => ({
@@ -25,12 +25,30 @@ const DragCalendar = () => {
                     end: new Date(event.end)
                 }));
                 setEvents(formattedEvents);
+                await sendEventsToBackend(formattedEvents);
             };
             reader.readAsText(file);
         }
     };
 
-    const onEventDrop = ({ event, start, end, isAllDay: droppedOnAllDaySlot }) => {
+    const sendEventsToBackend = async (events) => {
+        try {
+            console.log(JSON.stringify({ events }))
+            const response = await fetch('/api/events', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ events })
+            });
+            const data = await response.json();
+            console.log('Events sent to backend:', data);
+        } catch (error) {
+            console.error('Error sending events to backend:', error);
+        }
+    };
+
+    const onEventDrop = async ({ event, start, end, isAllDay: droppedOnAllDaySlot }) => {
         const idx = events.indexOf(event);
         const updatedEvent = { ...event, start, end };
 
@@ -38,6 +56,7 @@ const DragCalendar = () => {
         nextEvents.splice(idx, 1, updatedEvent);
 
         setEvents(nextEvents);
+        await sendEventsToBackend(nextEvents);
     };
 
     return (
