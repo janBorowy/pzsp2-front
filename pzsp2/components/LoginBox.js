@@ -3,22 +3,41 @@ import { useRouter } from 'next/router';  // Import useRouter
 import styles from '../styles/LoginBox.module.css';
 
 function LoginBox() {
-  const router = useRouter();  // Użycie hooka useRouter
+  const router = useRouter();
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    // Logika logowania - tutaj umieść sprawdzenie danych logowania
+    setError('');
 
-    // Zakładając, że logowanie jest udane, przekieruj do strony głównej
-    router.push('/');
+    try {
+      const response = await fetch('http://localhost:8080/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId, password }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Login failed');
+      }
+
+      const data = await response.json();
+      localStorage.setItem('token', data.token);
+      router.push('/');
+    } catch (error) {
+      setError('Invalid credentials. Please try again.');
+    }
   };
 
   return (
     <div className={styles.loginBox}>
       <h2>Welcome</h2>
       <h3>Sign In</h3>
+      {error && <p className={styles.error}>{error}</p>}
       <form onSubmit={handleLogin}>
         <label htmlFor="userId">User ID:</label>
         <input

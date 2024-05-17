@@ -1,6 +1,3 @@
-/* styles/Navbar.module.css */
-
-
 .nav {
     background-color: white; /* Zmiana koloru tła na biały */
     color: black; /* Zmiana koloru tekstu na czarny */
@@ -30,6 +27,23 @@
     font-size: large;
 }
 
+.currency {
+    display: flex;
+    align-items: center;
+    margin-right: 20px; /* Adjust as needed */
+}
+
+.moneyIcon {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.currencyValue {
+    font-size: 16px;
+    color: black;
+}
+
 .button {
     background-color: blue;
     color: white;
@@ -38,7 +52,7 @@
     padding: 8px 16px;
     cursor: pointer;
     outline: none;
-    font-size: medium   ;
+    font-size: medium;
 }
 
 .button:hover {

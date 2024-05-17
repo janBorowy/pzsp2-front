@@ -1,7 +1,25 @@
 import styles from '../styles/Navbar.module.css';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 const Navbar = () => {
+    const [currency, setCurrency] = useState(0);
+
+    useEffect(() => {
+        // Fetch the currency value from an API or set it to a hardcoded value for now
+        const fetchCurrency = async () => {
+            // Example fetch from an API
+            // const response = await fetch('/api/currency');
+            // const data = await response.json();
+            // setCurrency(data.value);
+
+            // Hardcoded value for demonstration
+            setCurrency(100);
+        };
+
+        fetchCurrency();
+    }, []);
+
     return (
         <nav className={styles.nav}>
             <div className={styles.left}>
@@ -10,6 +28,10 @@ const Navbar = () => {
                 <Link href="/oferty" className={styles.link}>Oferty</Link>
             </div>
             <div className={styles.right}>
+                <div className={styles.currency}>
+                    <img src="/money.png" alt="Money Icon" className={styles.moneyIcon} />
+                    <span className={styles.currencyValue}>{currency}</span>
+                </div>
                 <button className={styles.button}>Konto</button>
             </div>
         </nav>

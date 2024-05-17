@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import styles from '../styles/WantOfferPanel.module.css';
+import styles from '../styles/CanOfferPanel.module.css';
 
-const WantOfferPanel = ({ onClose, slot }) => {
+const CanOfferPanel = ({ onClose, slot }) => {
     const [price, setPrice] = useState('');
 
     const handleSubmit = async () => {
@@ -32,7 +32,7 @@ const WantOfferPanel = ({ onClose, slot }) => {
     return (
         <div className={styles.offer}>
             <button className={styles.close} onClick={onClose}>X</button>
-            <h2>Oferta want</h2>
+            <h2>Oferta can</h2>
             <label>
                 Cena:
                 <input
@@ -46,4 +46,4 @@ const WantOfferPanel = ({ onClose, slot }) => {
     );
 };
 
-export default WantOfferPanel;
+export default CanOfferPanel;
