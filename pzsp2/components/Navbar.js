@@ -1,8 +1,10 @@
 import styles from '../styles/Navbar.module.css';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import {useRouter} from "next/router";
 
 const Navbar = () => {
+    const router = useRouter()
     const [currency, setCurrency] = useState(0);
 
     useEffect(() => {
@@ -20,6 +22,11 @@ const Navbar = () => {
         fetchCurrency();
     }, []);
 
+    async function logOut(e) {
+        localStorage.removeItem("token")
+        await router.push("/login")
+    }
+
     return (
         <nav className={styles.nav}>
             <div className={styles.left}>
@@ -33,6 +40,7 @@ const Navbar = () => {
                     <span className={styles.currencyValue}>{currency}</span>
                 </div>
                 <button className={styles.button}>Konto</button>
+                <button className={styles.button} onClick={logOut}>Wyloguj</button>
             </div>
         </nav>
     );

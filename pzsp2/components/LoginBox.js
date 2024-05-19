@@ -4,7 +4,7 @@ import styles from '../styles/LoginBox.module.css';
 
 function LoginBox() {
   const router = useRouter();
-  const [userId, setUserId] = useState('');
+  const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
@@ -13,12 +13,12 @@ function LoginBox() {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:8080/api/auth/login', {
+      const response = await fetch('http://localhost:8080/auth/signin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId, password }),
+        body: JSON.stringify({ login, password }),
       });
 
       if (!response.ok) {
@@ -26,8 +26,9 @@ function LoginBox() {
       }
 
       const data = await response.json();
+      console.log(data);
       localStorage.setItem('token', data.token);
-      router.push('/');
+      await router.push('/');
     } catch (error) {
       setError('Invalid credentials. Please try again.');
     }
@@ -44,9 +45,9 @@ function LoginBox() {
           type="text"
           id="userId"
           className={styles.input}
-          value={userId}
+          value={login}
           placeholder="Enter your User ID"
-          onChange={(e) => setUserId(e.target.value)}
+          onChange={(e) => setLogin(e.target.value)}
         />
         <label htmlFor="password">Password:</label>
         <input

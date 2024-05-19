@@ -1,0 +1,12 @@
+.centered {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+
+.welcomeMessageContainer {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    text-align: center;
+}

@@ -1,0 +1,25 @@
+.page {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.messageContainer {
+    display: flex;
+    align-items: center;
+    flex-flow: column;
+}
+
+.button {
+    background-color: #4CAF50;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+}
+
+.button:hover {
+    cursor: pointer;
+    background-color: #45a049;
+}
