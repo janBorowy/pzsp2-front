@@ -1,0 +1,24 @@
+[{
+    "id": 0,
+    "startTime": "2024-05-19T08:00:00.000Z",
+    "baseSlotQuantity": 8,
+    "lastMarketPrice": 0,
+    "userLogin": "worker1",
+    "scheduleId": 0
+  },
+  {
+    "id": 0,
+    "startTime": "2024-05-22T13:00:00.000Z",
+    "baseSlotQuantity": 3,
+    "lastMarketPrice": 0,
+    "userLogin": "worker1",
+    "scheduleId": 0
+  },
+  {
+    "id": 0,
+    "startTime": "2024-05-23T09:00:00.000Z",
+    "baseSlotQuantity": 6,
+    "lastMarketPrice": 0,
+    "userLogin": "worker1",
+    "scheduleId": 0
+  }]

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import MyCalendar from '../components/MyCalendar';
 import WantOfferPanel from '../components/WantOfferPanel';
-import CanOfferPanel from '../components/CanOfferPanel'; // Import CanOfferPanel
+import CanOfferPanel from '../components/CanOfferPanel';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import styles from '../styles/WantOfferPanel.module.css';
 import DragCalendar from '../components/DragCalendar';
@@ -14,15 +14,14 @@ const HomePage = () => {
     const [events, setEvents] = useState([]);
     const [showConfirm, setShowConfirm] = useState(false);
     const [role, setRole] = useState('');
-    const [selectedSlot, setSelectedSlot] = useState(null); // Dodano stan do przechowywania wybranego slotu
+    const [selectedSlot, setSelectedSlot] = useState(null); 
 
     useEffect(() => {
         const fetchData = async () => {
             const token = localStorage.getItem('token');
-            // if (!token) {
-            //     console.error('No token found');
-            //     return;
-            // }
+            const userRole = localStorage.getItem('role'); // Pobieramy rolę użytkownika z localStorage
+
+            setRole(userRole); // Ustawiamy rolę w stanie
 
             try {
               console.log('Fetching data...');
@@ -39,7 +38,6 @@ const HomePage = () => {
                 const data = await response.json();
                 console.log('Data fetched:', data);
                 setEvents(data.events);
-                setRole(data.role);
             } catch (error) {
                 console.error('Failed to fetch data:', error);
             }
@@ -77,17 +75,26 @@ const HomePage = () => {
 
     return (
         <Layout>
-            <h1>Strona główna</h1>
-            <p>Witaj na stronie głównej!</p>
+            {/* <h1>Strona główna</h1>
+            <p>Witaj na stronie głównej!</p> */}
             <div style={{ height: 800 }}>
-                <MyCalendar
-                    events={events}
-                    onSelectSlot={handleSelectSlot}
-                    onEventDrop={onEventDrop}
-                    onEventResize={onEventResize}
-                />
+                {role === 'admin' ? (
+                    <DragCalendar
+                        events={events}
+                        onSelectSlot={handleSelectSlot}
+                        onEventDrop={onEventDrop}
+                        onEventResize={onEventResize}
+                    />
+                ) : (
+                    <MyCalendar
+                        events={events}
+                        onSelectSlot={handleSelectSlot}
+                        onEventDrop={onEventDrop}
+                        onEventResize={onEventResize}
+                    />
+                )}
                 {showConfirm && selectedSlot && (
-                    selectedSlot.isMine ? (
+                    selectedSlot.isUserSlot ? (
                         <WantOfferPanel 
                             onClose={handleOfferClose} 
                             slot={selectedSlot}
@@ -100,8 +107,6 @@ const HomePage = () => {
                     )
                 )}
             </div>
-            {role === 'admin' && <DragCalendar />}
-            <DragCalendar />
         </Layout>
     );
 };

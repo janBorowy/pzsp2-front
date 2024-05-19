@@ -6,62 +6,78 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.scss';
 
 const localizer = momentLocalizer(moment);
+const DraggableCalendar = withDragAndDrop(Calendar);
 
 const DragCalendar = () => {
     const [events, setEvents] = useState([]);
-
-    const DraggableCalendar = withDragAndDrop(Calendar);
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
-            reader.onload = async (e) => {
+            reader.onload = (e) => {
                 const content = e.target.result;
                 const jsonEvents = JSON.parse(content);
                 const formattedEvents = jsonEvents.map(event => ({
-                    ...event,
-                    start: new Date(event.start),
-                    end: new Date(event.end)
+                    id: event.id,
+                    title: event.userLogin,
+                    start: new Date(event.startTime),
+                    end: new Date(new Date(event.startTime).getTime() + event.baseSlotQuantity * 60000),
+                    lastMarketPrice: event.lastMarketPrice,
+                    userLogin: event.userLogin,
+                    scheduleId: event.scheduleId
                 }));
                 setEvents(formattedEvents);
-                await sendEventsToBackend(formattedEvents);
             };
             reader.readAsText(file);
         }
     };
 
-    const sendEventsToBackend = async (events) => {
+    const sendScheduleToBackend = async () => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.error('No token found');
+            return;
+        }
+
+        const eventsToSend = events.map(event => ({
+            id: 0,
+            startTime: event.start.toISOString(),
+            baseSlotQuantity: (event.end.getTime() - event.start.getTime()) / 60000,
+            lastMarketPrice: 0,
+            userLogin: event.userLogin,
+            scheduleId: 0
+        }));
+
         try {
-            console.log(JSON.stringify({ events }))
-            const response = await fetch('/api/events', {
+            console.log(eventsToSend);
+            const response = await fetch('http://localhost:8080/timeslots/all', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    // 'Authorization': `Bearer ${token}` // Dodanie tokena do nagłówka
                 },
-                body: JSON.stringify({ events })
+                body: JSON.stringify(eventsToSend) // Konwersja obiektu do JSON string bez pól 'title' i 'end'
             });
+            if (!response.ok) {
+                throw new Error('Failed to send schedule');
+            }
             const data = await response.json();
-            console.log('Events sent to backend:', data);
+            console.log('Schedule sent to backend:', data);
         } catch (error) {
-            console.error('Error sending events to backend:', error);
+            console.error('Error sending schedule to backend:', error);
         }
     };
 
-    const onEventDrop = async ({ event, start, end, isAllDay: droppedOnAllDaySlot }) => {
-        const idx = events.indexOf(event);
+    const onEventDrop = ({ event, start, end }) => {
         const updatedEvent = { ...event, start, end };
-
-        const nextEvents = [...events];
-        nextEvents.splice(idx, 1, updatedEvent);
-
-        setEvents(nextEvents);
-        await sendEventsToBackend(nextEvents);
+        setEvents(events.map(evt => evt.id === event.id ? updatedEvent : evt));
     };
 
     return (
         <div>
             <input type="file" onChange={handleFileChange} />
+            <button onClick={sendScheduleToBackend}>Zatwierdź grafik</button>
             <DraggableCalendar
                 localizer={localizer}
                 events={events}

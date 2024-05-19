@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { useRouter } from 'next/router';  // Import useRouter
+import { useRouter } from 'next/router';
 import styles from '../styles/LoginBox.module.css';
 
 function LoginBox() {
   const router = useRouter();
-  const [userId, setUserId] = useState('');
+  const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
@@ -13,12 +13,12 @@ function LoginBox() {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:8080/api/auth/login', {
+      const response = await fetch('http://localhost:8080/auth/signin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId, password }),
+        body: JSON.stringify({ login, password }), // Zmieniamy nazwę pola na "login"
       });
 
       if (!response.ok) {
@@ -27,6 +27,7 @@ function LoginBox() {
 
       const data = await response.json();
       localStorage.setItem('token', data.token);
+      localStorage.setItem('role', data.login); // Zakładamy, że API zwraca rolę użytkownika
       router.push('/');
     } catch (error) {
       setError('Invalid credentials. Please try again.');
@@ -39,14 +40,14 @@ function LoginBox() {
       <h3>Sign In</h3>
       {error && <p className={styles.error}>{error}</p>}
       <form onSubmit={handleLogin}>
-        <label htmlFor="userId">User ID:</label>
+        <label htmlFor="login">Login:</label>
         <input
           type="text"
-          id="userId"
+          id="login"
           className={styles.input}
-          value={userId}
-          placeholder="Enter your User ID"
-          onChange={(e) => setUserId(e.target.value)}
+          value={login}
+          placeholder="Enter your login"
+          onChange={(e) => setLogin(e.target.value)}
         />
         <label htmlFor="password">Password:</label>
         <input
