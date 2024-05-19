@@ -19,9 +19,9 @@ const HomePage = () => {
     useEffect(() => {
         const fetchData = async () => {
             const token = localStorage.getItem('token');
-            // const userRole = localStorage.getItem('role'); // Pobieramy rolę użytkownika z localStorage
+            const userRole = localStorage.getItem('role'); // Pobieramy rolę użytkownika z localStorage
 
-            // setRole(userRole); // Ustawiamy rolę w stanie
+            setRole(userRole); // Ustawiamy rolę w stanie
             setIsAdmin(localStorage.getItem("isAdmin") === "true");
             if (!token) {
                 await router.push("/notLoggedInPage");
@@ -43,6 +43,7 @@ const HomePage = () => {
                 const data = await response.json();
                 console.log('Data fetched:', data);
                 setEvents(data.events);
+                setRole(data.role);
             } catch (error) {
                 console.error('Failed to fetch data:', error);
             }
