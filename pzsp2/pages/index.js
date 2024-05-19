@@ -1,34 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Layout from '../components/Layout';
 import MyCalendar from '../components/MyCalendar';
 import WantOfferPanel from '../components/WantOfferPanel';
 import CanOfferPanel from '../components/CanOfferPanel';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import styles from '../styles/WantOfferPanel.module.css';
 import DragCalendar from '../components/DragCalendar';
-import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
-import moment from 'moment';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
+import {useRouter} from "next/router";
+import style from "../styles/index.module.css";
 
 const HomePage = () => {
+    const router = useRouter()
     const [events, setEvents] = useState([]);
     const [showConfirm, setShowConfirm] = useState(false);
     const [role, setRole] = useState('');
     const [selectedSlot, setSelectedSlot] = useState(null); 
+    const [isAdmin, setIsAdmin] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
             const token = localStorage.getItem('token');
-            const userRole = localStorage.getItem('role'); // Pobieramy rolę użytkownika z localStorage
+            // const userRole = localStorage.getItem('role'); // Pobieramy rolę użytkownika z localStorage
 
-            setRole(userRole); // Ustawiamy rolę w stanie
+            // setRole(userRole); // Ustawiamy rolę w stanie
+            setIsAdmin(localStorage.getItem("isAdmin") === "true");
+            if (!token) {
+                await router.push("/notLoggedInPage");
+                return;
+            }
 
             try {
               console.log('Fetching data...');
                 const response = await fetch('http://localhost:8080/schedules/admin', {
-                    // headers: {
-                    //     'Authorization': `Bearer ${token}`
-                    // }
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
                 });
 
                 if (!response.ok) {
@@ -75,8 +80,12 @@ const HomePage = () => {
 
     return (
         <Layout>
-            {/* <h1>Strona główna</h1>
-            <p>Witaj na stronie głównej!</p> */}
+            <div className={style.centered}>
+                <div className={style.welcomeMessageContainer}>
+                    <h1>Strona główna</h1>
+                    <p>Witaj na stronie głównej!</p>
+                </div>
+            </div>
             <div style={{ height: 800 }}>
                 {role === 'admin' ? (
                     <DragCalendar
@@ -107,6 +116,7 @@ const HomePage = () => {
                     )
                 )}
             </div>
+            {isAdmin && <DragCalendar />}
         </Layout>
     );
 };
