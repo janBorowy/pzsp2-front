@@ -6,6 +6,7 @@
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Zmiana koloru linii na cieniutką, ledwo widoczną szarą */
+    height: 15vh;
 }
 
 .left, .right {
@@ -14,8 +15,7 @@
 }
 
 .icon {
-    width: 24px; /* Możesz dostosować rozmiar ikony */
-    height: 24px;
+    width: 8em;
     margin-right: 10px;
 }
 

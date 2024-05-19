@@ -28,6 +28,7 @@ function LoginBox() {
       const data = await response.json();
       console.log(data);
       localStorage.setItem('token', data.token);
+      localStorage.setItem('isAdmin', data.isAdmin);
       await router.push('/');
     } catch (error) {
       setError('Invalid credentials. Please try again.');
@@ -36,11 +37,11 @@ function LoginBox() {
 
   return (
     <div className={styles.loginBox}>
-      <h2>Welcome</h2>
-      <h3>Sign In</h3>
+      <h2>Witaj</h2>
+      <h3>Zaloguj się</h3>
       {error && <p className={styles.error}>{error}</p>}
       <form onSubmit={handleLogin}>
-        <label htmlFor="userId">User ID:</label>
+        <label htmlFor="userId">Login:</label>
         <input
           type="text"
           id="userId"
@@ -49,7 +50,7 @@ function LoginBox() {
           placeholder="Enter your User ID"
           onChange={(e) => setLogin(e.target.value)}
         />
-        <label htmlFor="password">Password:</label>
+        <label htmlFor="password">Hasło:</label>
         <input
           type="password"
           id="password"
@@ -58,7 +59,7 @@ function LoginBox() {
           placeholder="Enter your Password"
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button className={styles.button} type="submit">Login</button>
+        <button className={styles.button} type="submit">Zaloguj się</button>
       </form>
     </div>
   );

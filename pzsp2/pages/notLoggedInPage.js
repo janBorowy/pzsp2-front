@@ -10,8 +10,8 @@ const NotLoggedInPage = () => {
 
     return <div className={styles.page}>
         <div className={styles.messageContainer}>
-            <h1>Please log in first</h1>
-            <button className={styles.button} onClick={goToLoginPage}>Go to login page</button>
+            <h1>Nie jesteś zalogowany</h1>
+            <button className={styles.button} onClick={goToLoginPage}>Zaloguj się</button>
         </div>
     </div>
 }

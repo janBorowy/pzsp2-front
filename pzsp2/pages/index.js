@@ -12,12 +12,13 @@ const HomePage = () => {
     const router = useRouter()
     const [events, setEvents] = useState([]);
     const [showConfirm, setShowConfirm] = useState(false);
-    const [role, setRole] = useState('');
+    const [isAdmin, setIsAdmin] = useState(false);
     const [selectedSlot, setSelectedSlot] = useState(null); // Dodano stan do przechowywania wybranego slotu
 
     useEffect(() => {
         const fetchData = async () => {
             const token = localStorage.getItem('token');
+            setIsAdmin(localStorage.getItem("isAdmin") === "true");
             if (!token) {
                 await router.push("/notLoggedInPage");
                 return;
@@ -38,7 +39,6 @@ const HomePage = () => {
                 const data = await response.json();
                 console.log('Data fetched:', data);
                 setEvents(data.events);
-                setRole(data.role);
             } catch (error) {
                 console.error('Failed to fetch data:', error);
             }
@@ -103,8 +103,7 @@ const HomePage = () => {
                     )
                 )}
             </div>
-            {role === 'admin' && <DragCalendar />}
-            <DragCalendar />
+            {isAdmin && <DragCalendar />}
         </Layout>
     );
 };
