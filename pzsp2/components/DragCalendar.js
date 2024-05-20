@@ -4,6 +4,7 @@ import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.scss';
+import styles from '../styles/DragCalendar.module.css';
 
 const localizer = momentLocalizer(moment);
 const DraggableCalendar = withDragAndDrop(Calendar);
@@ -17,14 +18,14 @@ const DragCalendar = () => {
     }, []);
 
     const fetchSlots = async () => {
-        // const login = localStorage.getItem('login');
-        // if (!login) {
-        //     console.error('No login found');
-        //     return;
-        // }
+        const login = localStorage.getItem('login');
+        if (!login) {
+            console.error('No login found');
+            return;
+        }
 
         try {
-            const response = await fetch(`http://localhost:8080/schedules/admin`); //${login}
+            const response = await fetch(`http://localhost:8080/schedules/${login}`); //${login}
 
             if (!response.ok) {
                 throw new Error('Failed to fetch slots');
@@ -153,6 +154,14 @@ const DragCalendar = () => {
         );
     };
 
+    const eventPropGetter = (event) => {
+        return {
+            style: {
+                backgroundColor: '#4CAF50',
+            },
+        };
+    };
+
     return (
         <div>
             <input
@@ -161,8 +170,8 @@ const DragCalendar = () => {
                 onChange={handleFileChange}
                 style={{ display: 'none' }}
             />
-            <button onClick={handleButtonClick}>Wstaw grafik</button>
-            <button onClick={sendScheduleToBackend}>Zatwierdź grafik</button>
+            <button className={styles.button} onClick={handleButtonClick}>Wstaw grafik</button>
+            <button className={styles.button} onClick={sendScheduleToBackend}>Zatwierdź grafik</button>
             <DraggableCalendar
                 localizer={localizer}
                 events={events}
@@ -170,7 +179,8 @@ const DragCalendar = () => {
                 draggableAccessor={() => true}
                 startAccessor="start"
                 endAccessor="end"
-                style={{ margin: '100px' }}
+                eventPropGetter={eventPropGetter}
+                style={{ margin: '100px'}}
                 min={new Date().setHours(6, 0, 0)}
                 max={new Date().setHours(22, 0, 0)}
                 defaultView="week"

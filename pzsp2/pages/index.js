@@ -82,8 +82,7 @@ const HomePage = () => {
         <Layout>
             <div className={style.centered}>
                 <div className={style.welcomeMessageContainer}>
-                    <h1>Strona główna</h1>
-                    <p>Witaj na stronie głównej!</p>
+                    <h1>Grafik</h1>
                 </div>
             </div>
             <div style={{ height: 800 }}>

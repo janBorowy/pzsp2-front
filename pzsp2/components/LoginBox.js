@@ -29,7 +29,7 @@ function LoginBox() {
       console.log(data);
       localStorage.setItem('token', data.token);
       localStorage.setItem('isAdmin', data.isAdmin);
-      localStorage.setItem('role', data.login);
+      localStorage.setItem('login', data.login);
       await router.push('/');
     } catch (error) {
       setError('Invalid credentials. Please try again.');
