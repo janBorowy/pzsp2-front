@@ -10,10 +10,11 @@ const DraggableCalendar = withDragAndDrop(Calendar);
 
 const DragCalendar = () => {
     const [events, setEvents] = useState([]);
+    const [slotLength, setSlotLength] = useState(null);
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
-        if (file) {
+        if (file && slotLength !== null) {
             const reader = new FileReader();
             reader.onload = (e) => {
                 const content = e.target.result;
@@ -22,7 +23,7 @@ const DragCalendar = () => {
                     id: event.id,
                     title: event.userLogin,
                     start: new Date(event.startTime),
-                    end: new Date(new Date(event.startTime).getTime() + event.baseSlotQuantity * 60000),
+                    end: new Date(new Date(event.startTime).getTime() + event.baseSlotQuantity * slotLength * 60000),
                     lastMarketPrice: event.lastMarketPrice,
                     userLogin: event.userLogin,
                     scheduleId: event.scheduleId
@@ -30,6 +31,17 @@ const DragCalendar = () => {
                 setEvents(formattedEvents);
             };
             reader.readAsText(file);
+        }
+    };
+
+    const handleButtonClick = () => {
+        const slotLengthInput = prompt("Podaj długość slotu (w minutach):");
+        const parsedSlotLength = parseInt(slotLengthInput, 10);
+        if (!isNaN(parsedSlotLength)) {
+            setSlotLength(parsedSlotLength);
+            document.getElementById('fileInput').click();
+        } else {
+            alert("Proszę podać prawidłową liczbę.");
         }
     };
 
@@ -43,10 +55,10 @@ const DragCalendar = () => {
         const eventsToSend = events.map(event => ({
             id: 0,
             startTime: event.start.toISOString(),
-            baseSlotQuantity: (event.end.getTime() - event.start.getTime()) / 60000,
+            baseSlotQuantity: (event.end.getTime() - event.start.getTime()) / (slotLength * 60000),
             lastMarketPrice: 0,
             userLogin: event.userLogin,
-            scheduleId: 0
+            scheduleId: event.scheduleId
         }));
 
         try {
@@ -55,34 +67,68 @@ const DragCalendar = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    // 'Authorization': `Bearer ${token}` // Dodanie tokena do nagłówka
+                    // 'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify(eventsToSend) // Konwersja obiektu do JSON string bez pól 'title' i 'end'
+                body: JSON.stringify(eventsToSend)
             });
             if (!response.ok) {
                 throw new Error('Failed to send schedule');
             }
             const data = await response.json();
             console.log('Schedule sent to backend:', data);
+
+            if (data.length > 0 && data[0].scheduleId) {
+                const scheduleId = data[0].scheduleId;
+                await updateScheduleLength(scheduleId, slotLength, token);
+            }
         } catch (error) {
             console.error('Error sending schedule to backend:', error);
         }
     };
 
+    const updateScheduleLength = async (scheduleId, slotLength, token) => {
+        try {
+            const response = await fetch(`http://localhost:8080/schedules`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ id: scheduleId, slotLength: slotLength })
+            });
+            if (!response.ok) {
+                throw new Error('Failed to update schedule length');
+            }
+            const data = await response.json();
+            console.log('Schedule length updated:', data);
+        } catch (error) {
+            console.error('Error updating schedule length:', error);
+            console.log(scheduleId, slotLength);
+        }
+    };
+
     const onEventDrop = ({ event, start, end }) => {
         const updatedEvent = { ...event, start, end };
-        setEvents(events.map(evt => evt.id === event.id ? updatedEvent : evt));
+        setEvents(prevEvents =>
+            prevEvents.map(evt => evt.id === event.id ? updatedEvent : evt)
+        );
     };
 
     return (
         <div>
-            <input type="file" onChange={handleFileChange} />
+            <input
+                id="fileInput"
+                type="file"
+                onChange={handleFileChange}
+                style={{ display: 'none' }}
+            />
+            <button onClick={handleButtonClick}>Wstaw grafik</button>
             <button onClick={sendScheduleToBackend}>Zatwierdź grafik</button>
             <DraggableCalendar
                 localizer={localizer}
                 events={events}
                 onEventDrop={onEventDrop}
-                resizable
+                draggableAccessor={() => true}
                 startAccessor="start"
                 endAccessor="end"
                 style={{ margin: '100px' }}

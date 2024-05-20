@@ -19,7 +19,7 @@ const HomePage = () => {
     useEffect(() => {
         const fetchData = async () => {
             const token = localStorage.getItem('token');
-            const userRole = localStorage.getItem('role'); // Pobieramy rolę użytkownika z localStorage
+            const userRole = true; //localStorage.getItem('role');
 
             setRole(userRole); // Ustawiamy rolę w stanie
             setIsAdmin(localStorage.getItem("isAdmin") === "true");
@@ -48,7 +48,6 @@ const HomePage = () => {
                 console.error('Failed to fetch data:', error);
             }
         };
-
         fetchData();
     }, []);
 
@@ -88,7 +87,7 @@ const HomePage = () => {
                 </div>
             </div>
             <div style={{ height: 800 }}>
-                {role === 'admin' ? (
+                {isAdmin === false ? (
                     <DragCalendar
                         events={events}
                         onSelectSlot={handleSelectSlot}
