@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import moment from 'moment';
@@ -11,6 +11,43 @@ const DraggableCalendar = withDragAndDrop(Calendar);
 const DragCalendar = () => {
     const [events, setEvents] = useState([]);
     const [slotLength, setSlotLength] = useState(null);
+
+    useEffect(() => {
+        fetchSlots();
+    }, []);
+
+    const fetchSlots = async () => {
+        // const login = localStorage.getItem('login');
+        // if (!login) {
+        //     console.error('No login found');
+        //     return;
+        // }
+
+        try {
+            const response = await fetch(`http://localhost:8080/schedules/admin`); //${login}
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch slots');
+            }
+
+            const data = await response.json();
+            const formattedEvents = data.timeSlots.map(slot => ({
+                id: slot.id,
+                title: slot.usersSlots.map(user => user.userName).join(', '),
+                start: new Date(slot.startTime),
+                end: new Date(new Date(slot.startTime).getTime() + slot.baseSlotQuantity * data.slotLength * 60000),
+                baseSlotQuantity: slot.baseSlotQuantity,
+                lastMarketPrice: slot.lastMarketPrice,
+                userLogin: slot.usersSlots.map(user => user.userName).join(', '),
+                scheduleId: slot.scheduleId
+            }));
+            setSlotLength(data.slotLength);
+            setEvents(formattedEvents);
+            console.log('Slots fetched:', formattedEvents);
+        } catch (error) {
+            console.error('Error fetching slots:', error);
+        }
+    };
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
@@ -94,7 +131,10 @@ const DragCalendar = () => {
                     'Content-Type': 'application/json',
                     // 'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({ id: scheduleId, slotLength: slotLength })
+                body: JSON.stringify({
+                    id: scheduleId,
+                    slotLength: slotLength
+                })
             });
             if (!response.ok) {
                 throw new Error('Failed to update schedule length');
@@ -103,7 +143,6 @@ const DragCalendar = () => {
             console.log('Schedule length updated:', data);
         } catch (error) {
             console.error('Error updating schedule length:', error);
-            console.log(scheduleId, slotLength);
         }
     };
 
