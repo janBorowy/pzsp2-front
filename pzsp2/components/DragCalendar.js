@@ -5,6 +5,7 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.scss';
 import styles from '../styles/DragCalendar.module.css';
+import { title } from 'process';
 
 const localizer = momentLocalizer(moment);
 const DraggableCalendar = withDragAndDrop(Calendar);
@@ -25,7 +26,7 @@ const DragCalendar = () => {
         }
 
         try {
-            const response = await fetch(`http://localhost:8080/schedules/${login}`); //${login}
+            const response = await fetch(`http://localhost:8080/schedules/${login}`);
 
             if (!response.ok) {
                 throw new Error('Failed to fetch slots');
@@ -34,12 +35,12 @@ const DragCalendar = () => {
             const data = await response.json();
             const formattedEvents = data.timeSlots.map(slot => ({
                 id: slot.id,
-                title: slot.usersSlots.map(user => user.userName).join(', '),
+                title: slot.users.map(user => user.userName).join(', '),
                 start: new Date(slot.startTime),
                 end: new Date(new Date(slot.startTime).getTime() + slot.baseSlotQuantity * data.slotLength * 60000),
                 baseSlotQuantity: slot.baseSlotQuantity,
                 lastMarketPrice: slot.lastMarketPrice,
-                userLogin: slot.usersSlots.map(user => user.userName).join(', '),
+                userLogin: slot.users.map(user => user.userName).join(', '),
                 scheduleId: slot.scheduleId
             }));
             setSlotLength(data.slotLength);
@@ -59,11 +60,13 @@ const DragCalendar = () => {
                 const jsonEvents = JSON.parse(content);
                 const formattedEvents = jsonEvents.map(event => ({
                     id: event.id,
-                    title: event.userLogin,
+                    // title: event.userLogin,
+                    title: event.users.map(user => user.userName).join(', '),
                     start: new Date(event.startTime),
                     end: new Date(new Date(event.startTime).getTime() + event.baseSlotQuantity * slotLength * 60000),
                     lastMarketPrice: event.lastMarketPrice,
-                    userLogin: event.userLogin,
+                    // userLogin: event.userLogin,
+                    users: event.users,
                     scheduleId: event.scheduleId
                 }));
                 setEvents(formattedEvents);
@@ -94,8 +97,10 @@ const DragCalendar = () => {
             id: 0,
             startTime: event.start.toISOString(),
             baseSlotQuantity: (event.end.getTime() - event.start.getTime()) / (slotLength * 60000),
-            lastMarketPrice: 0,
-            userLogin: event.userLogin,
+            lastMarketPrice: event.lastMarketPrice,
+            numberOfUsers: 0, //event.users.length,
+            isUserSlot: true,
+            users: event.users,
             scheduleId: event.scheduleId
         }));
 
