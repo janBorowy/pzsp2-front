@@ -11,22 +11,33 @@ const MyCalendar = ({ onSelectSlot }) => {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await fetch('http://localhost:8080/schedules/admin');
+                const response = await fetch('http://localhost:8080/schedules/worker1');
                 const data = await response.json();
 
-                const formattedEvents = data.timeSlots.map(slot => {
-                    const startTime = new Date(slot.startTime);
-                    const endTime = new Date(startTime.getTime() + slot.baseSlotQuantity * data.slotLength * 60 * 1000);
+                // const formattedEvents = data.timeSlots.map(slot => {
+                //     const startTime = new Date(slot.startTime);
+                //     const endTime = new Date(startTime.getTime() + slot.baseSlotQuantity * data.slotLength * 60 * 1000);
 
-                    return {
-                        id: slot.id,
-                        title: slot.usersSlots.map(userSlot => `${userSlot.name} ${userSlot.surname}`).join(', '),
-                        start: startTime,
-                        end: endTime,
-                        participants: slot.usersSlots.map(userSlot => userSlot.name),
-                        isUserSlot: slot.isUserSlot
-                    };
-                });
+                //     return {
+                //         id: slot.id,
+                //         title: slot.usersSlots.map(userSlot => `${userSlot.name} ${userSlot.surname}`).join(', '),
+                //         start: startTime,
+                //         end: endTime,
+                //         participants: slot.usersSlots.map(userSlot => userSlot.name),
+                //         isUserSlot: slot.isUserSlot
+                //     };
+                // });
+                const formattedEvents = data.timeSlots.map(slot => ({
+                    id: slot.id,
+                    title: slot.users.map(user => user.userName).join(', '),
+                    start: new Date(slot.startTime),
+                    end: new Date(new Date(slot.startTime).getTime() + slot.baseSlotQuantity * data.slotLength * 60000),
+                    baseSlotQuantity: slot.baseSlotQuantity,
+                    lastMarketPrice: slot.lastMarketPrice,
+                    userLogin: slot.users.map(user => user.userName).join(', '),
+                    scheduleId: slot.scheduleId,
+                    isUserSlot: slot.isUserSlot
+                }));
 
                 setEvents(formattedEvents);
             } catch (error) {

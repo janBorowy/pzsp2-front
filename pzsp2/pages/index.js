@@ -22,7 +22,9 @@ const HomePage = () => {
             const userRole = true; //localStorage.getItem('role');
 
             setRole(userRole); // Ustawiamy rolę w stanie
-            setIsAdmin(localStorage.getItem("isAdmin") === "true");
+            // setIsAdmin(localStorage.getItem("isAdmin") === "true");
+            localStorage.setItem('isAdmin', false);
+            setIsAdmin(false);
             if (!token) {
                 await router.push("/notLoggedInPage");
                 return;
@@ -86,7 +88,7 @@ const HomePage = () => {
                 </div>
             </div>
             <div style={{ height: 800 }}>
-                {isAdmin === false ? (
+                {isAdmin === true ? (
                     <DragCalendar
                         events={events}
                         onSelectSlot={handleSelectSlot}
@@ -115,7 +117,7 @@ const HomePage = () => {
                     )
                 )}
             </div>
-            {isAdmin && <DragCalendar />}
+            {/* {isAdmin && <DragCalendar />} */}
         </Layout>
     );
 };
