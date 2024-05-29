@@ -5,7 +5,7 @@
     "lastMarketPrice": 0,
     "users": [
         {
-            "userName": "worker1",
+            "login": "worker1",
             "name": "Adam",
             "surname": "Kownacki"
         }
@@ -19,7 +19,7 @@
     "lastMarketPrice": 0,
     "users": [
         {
-            "userName": "worker1",
+            "login": "worker1",
             "name": "Adam",
             "surname": "Kownacki"
         }
@@ -33,7 +33,7 @@
     "lastMarketPrice": 0,
     "users": [
         {
-            "userName": "worker1",
+            "login": "worker1",
             "name": "Adam",
             "surname": "Kownacki"
         }

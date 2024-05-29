@@ -5,7 +5,7 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.scss';
 import styles from '../styles/DragCalendar.module.css';
-import { title } from 'process';
+import OptimizerPanel from './OptimizerPanel';
 
 const localizer = momentLocalizer(moment);
 const DraggableCalendar = withDragAndDrop(Calendar);
@@ -13,6 +13,7 @@ const DraggableCalendar = withDragAndDrop(Calendar);
 const DragCalendar = () => {
     const [events, setEvents] = useState([]);
     const [slotLength, setSlotLength] = useState(null);
+    const [showOptimizerPanel, setShowOptimizerPanel] = useState(false);
 
     useEffect(() => {
         fetchSlots();
@@ -35,12 +36,12 @@ const DragCalendar = () => {
             const data = await response.json();
             const formattedEvents = data.timeSlots.map(slot => ({
                 id: slot.id,
-                title: slot.users.map(user => user.userName).join(', '),
+                title: slot.users.map(user => user.login).join(', '),
                 start: new Date(slot.startTime),
                 end: new Date(new Date(slot.startTime).getTime() + slot.baseSlotQuantity * data.slotLength * 60000),
                 baseSlotQuantity: slot.baseSlotQuantity,
                 lastMarketPrice: slot.lastMarketPrice,
-                userLogin: slot.users.map(user => user.userName).join(', '),
+                login: slot.users.map(user => user.login).join(', '),
                 scheduleId: slot.scheduleId
             }));
             setSlotLength(data.slotLength);
@@ -167,6 +168,32 @@ const DragCalendar = () => {
         };
     };
 
+    const handleOptimizerSubmit = async (data) => {
+        // Implement the logic to handle form submission and make a POST request
+        const login = localStorage.getItem('login');
+        if (!login) {
+            console.error('No login found');
+            return;
+        }
+        console.log("Submitted data:", data);
+        try {
+            const response = await fetch(`http://localhost:8080/optimizationProcess/${login}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+            if (!response.ok) {
+                throw new Error('Failed to submit optimizer data');
+            }
+            const result = await response.json();
+            console.log('Optimizer data submitted:', result);
+        } catch (error) {
+            console.error('Error submitting optimizer data:', error);
+        }
+    };
+
     return (
         <div>
             <input
@@ -177,6 +204,7 @@ const DragCalendar = () => {
             />
             <button className={styles.button} onClick={handleButtonClick}>Wstaw grafik</button>
             <button className={styles.button} onClick={sendScheduleToBackend}>Zatwierdź grafik</button>
+            <button className={styles.button} onClick={() => setShowOptimizerPanel(true)}>Ustaw optymalizator</button>
             <DraggableCalendar
                 localizer={localizer}
                 events={events}
@@ -185,11 +213,17 @@ const DragCalendar = () => {
                 startAccessor="start"
                 endAccessor="end"
                 eventPropGetter={eventPropGetter}
-                style={{ margin: '100px'}}
+                style={{ margin: '100px' }}
                 min={new Date().setHours(6, 0, 0)}
                 max={new Date().setHours(22, 0, 0)}
                 defaultView="week"
             />
+            {showOptimizerPanel && (
+                <OptimizerPanel
+                    onSubmit={handleOptimizerSubmit}
+                    onClose={() => setShowOptimizerPanel(false)}
+                />
+            )}
         </div>
     );
 };

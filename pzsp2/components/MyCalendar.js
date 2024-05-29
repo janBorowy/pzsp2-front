@@ -29,12 +29,12 @@ const MyCalendar = ({ onSelectSlot }) => {
                 // });
                 const formattedEvents = data.timeSlots.map(slot => ({
                     id: slot.id,
-                    title: slot.users.map(user => user.userName).join(', '),
+                    title: slot.users.map(user => user.login).join(', '),
                     start: new Date(slot.startTime),
                     end: new Date(new Date(slot.startTime).getTime() + slot.baseSlotQuantity * data.slotLength * 60000),
                     baseSlotQuantity: slot.baseSlotQuantity,
                     lastMarketPrice: slot.lastMarketPrice,
-                    userLogin: slot.users.map(user => user.userName).join(', '),
+                    userLogin: slot.users.map(user => user.login).join(', '),
                     scheduleId: slot.scheduleId,
                     isUserSlot: slot.isUserSlot
                 }));
