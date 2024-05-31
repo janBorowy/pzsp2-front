@@ -1,12 +1,13 @@
-.centered {
+.ofertyHeader {
     display: flex;
-    flex-flow: column nowrap;
+    justify-content: center; /* Center horizontally */
     align-items: center;
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #ddd;
 }
 
-.welcomeMessageContainer {
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: center;
-    text-align: center;
+.title {
+    font-size: 32px;
+    font-weight: bold;
 }

@@ -6,25 +6,21 @@ import CanOfferPanel from '../components/CanOfferPanel';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import DragCalendar from '../components/DragCalendar';
 import {useRouter} from "next/router";
-import style from "../styles/index.module.css";
+import styles from "../styles/index.module.css";
 
 const HomePage = () => {
-    const router = useRouter()
+    const router = useRouter();
     const [events, setEvents] = useState([]);
     const [showConfirm, setShowConfirm] = useState(false);
-    // const [role, setRole] = useState('');
-    const [selectedSlot, setSelectedSlot] = useState(null); 
+    const [selectedSlot, setSelectedSlot] = useState(null);
     const [isAdmin, setIsAdmin] = useState(false);
+    const [optimizationProcess, setOptimizationProcess] = useState(null); // State to store fetched data
 
     useEffect(() => {
         const fetchData = async () => {
             const token = localStorage.getItem('token');
-            // const userRole = true; //localStorage.getItem('role');
-
-            // setRole(userRole); // Ustawiamy rolę w stanie
+            const login = localStorage.getItem('login');
             setIsAdmin(localStorage.getItem('isAdmin') === 'true');
-            // localStorage.setItem('isAdmin', false);
-            // setIsAdmin(false);
             console.log(isAdmin);
             if (!token) {
                 await router.push("/notLoggedInPage");
@@ -32,8 +28,8 @@ const HomePage = () => {
             }
 
             try {
-              console.log('Fetching data...');
-                const response = await fetch('http://localhost:8080/schedules/admin', {
+                console.log('Fetching data...');
+                const response = await fetch(`http://localhost:8080/optimizationProcess/nearest/${login}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -45,8 +41,8 @@ const HomePage = () => {
 
                 const data = await response.json();
                 console.log('Data fetched:', data);
-                setEvents(data.events);
-                // setRole(data.role);
+                setOptimizationProcess(data); // Store fetched data
+                // setEvents(data.events); // Assuming events are part of the fetched data
             } catch (error) {
                 console.error('Failed to fetch data:', error);
             }
@@ -83,12 +79,20 @@ const HomePage = () => {
 
     return (
         <Layout>
-            <div className={style.centered}>
+            {/* <div className={style.centered}>
                 <div className={style.welcomeMessageContainer}>
                     <h1>Grafik</h1>
                 </div>
+            </div> */}
+            <div className={styles.ofertyHeader}>
+                <h1 className={styles.title}>Grafik</h1>
             </div>
-            <div style={{ height: 800 }}>
+            {optimizationProcess && (
+                    <div className={styles.offerDeadline}>
+                        <p>Offer Acceptance Deadline: {new Date(optimizationProcess.offerAcceptanceDeadline).toLocaleString()}</p>
+                    </div>
+                )}
+            <div style={{ height: 800, marginBottom: 100}}>
                 {isAdmin === true ? (
                     <DragCalendar
                         events={events}
@@ -104,21 +108,22 @@ const HomePage = () => {
                         onEventResize={onEventResize}
                     />
                 )}
-                {showConfirm && selectedSlot && (
+                {showConfirm && selectedSlot && optimizationProcess && (
                     selectedSlot.isUserSlot ? (
                         <WantOfferPanel 
                             onClose={handleOfferClose} 
                             slot={selectedSlot}
+                            optimizationProcess={optimizationProcess}
                         />
                     ) : (
                         <CanOfferPanel
                             onClose={handleOfferClose}
                             slot={selectedSlot}
+                            optimizationProcess={optimizationProcess}
                         />
                     )
                 )}
             </div>
-            {/* {isAdmin && <DragCalendar />} */}
         </Layout>
     );
 };

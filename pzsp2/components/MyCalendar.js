@@ -74,7 +74,7 @@ const MyCalendar = ({ onSelectSlot }) => {
                 events={events}
                 startAccessor="start"
                 endAccessor="end"
-                style={{ margin: '100px' }}
+                style={{ margin: '50px' }}
                 min={new Date().setHours(6, 0, 0)}
                 max={new Date().setHours(22, 0, 0)}
                 views={{ month: false, week: true, day: true, agenda: true }}

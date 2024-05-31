@@ -1,19 +1,22 @@
 import React, { useState } from 'react';
 import styles from '../styles/CanOfferPanel.module.css';
 
-const CanOfferPanel = ({ onClose, slot }) => {
+const CanOfferPanel = ({ onClose, slot, optimizationProcess }) => {
     const [price, setPrice] = useState('');
 
     const handleSubmit = async () => {
         try {
-            const response = await fetch('http://localhost:8080/api/offer', {
+            const login = localStorage.getItem('login');
+            const response = await fetch(`http://localhost:8080/tradeOffers/${login}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ 
                     price,
-                    slot // Dodanie danych slotu do ciała żądania
+                    timeSlotId: slot.id,
+                    ifWantOffer: false,
+                    optimizationProcessId: optimizationProcess.id // Dodanie danych slotu do ciała żądania
                 })
             });
             if (response.ok) {

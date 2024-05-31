@@ -62,7 +62,7 @@ const DragCalendar = () => {
                 const formattedEvents = jsonEvents.map(event => ({
                     id: event.id,
                     // title: event.userLogin,
-                    title: event.users.map(user => user.userName).join(', '),
+                    title: event.users.map(user => user.login).join(', '),
                     start: new Date(event.startTime),
                     end: new Date(new Date(event.startTime).getTime() + event.baseSlotQuantity * slotLength * 60000),
                     lastMarketPrice: event.lastMarketPrice,
@@ -204,8 +204,9 @@ const DragCalendar = () => {
             />
             <button className={styles.button} onClick={handleButtonClick}>Wstaw grafik</button>
             <button className={styles.button} onClick={sendScheduleToBackend}>Zatwierdź grafik</button>
-            <button className={styles.button} onClick={() => setShowOptimizerPanel(true)}>Ustaw optymalizator</button>
+            <button className={styles.optimizerButton} onClick={() => setShowOptimizerPanel(true)}>Ustaw optymalizator</button>
             <DraggableCalendar
+                className={styles.calendar}
                 localizer={localizer}
                 events={events}
                 onEventDrop={onEventDrop}
@@ -213,7 +214,7 @@ const DragCalendar = () => {
                 startAccessor="start"
                 endAccessor="end"
                 eventPropGetter={eventPropGetter}
-                style={{ margin: '100px' }}
+                style={{ margin: '50px'}}
                 min={new Date().setHours(6, 0, 0)}
                 max={new Date().setHours(22, 0, 0)}
                 defaultView="week"

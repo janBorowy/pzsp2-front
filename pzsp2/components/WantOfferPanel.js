@@ -1,19 +1,22 @@
 import React, { useState } from 'react';
 import styles from '../styles/WantOfferPanel.module.css';
 
-const WantOfferPanel = ({ onClose, slot }) => {
+const WantOfferPanel = ({ onClose, slot, optimizationProcess }) => {
     const [price, setPrice] = useState('');
 
     const handleSubmit = async () => {
         try {
-            const response = await fetch('http://localhost:8080/api/offer', {
+            const login = localStorage.getItem('login');
+            const response = await fetch(`http://localhost:8080/tradeOffers/${login}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ 
                     price,
-                    slot // Dodanie danych slotu do ciała żądania
+                    timeSlotId: slot.id,
+                    ifWantOffer: true,
+                    optimizationProcessId: optimizationProcess.id // Dodanie danych slotu do ciała żądania
                 })
             });
             if (response.ok) {
