@@ -21,13 +21,18 @@ const DragCalendar = () => {
 
     const fetchSlots = async () => {
         const login = localStorage.getItem('login');
+        const token = localStorage.getItem('token');
         if (!login) {
             console.error('No login found');
             return;
         }
 
         try {
-            const response = await fetch(`http://localhost:8080/schedules/${login}`);
+            const response = await fetch(`http://localhost:8080/schedules/${login}`,  {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
 
             if (!response.ok) {
                 throw new Error('Failed to fetch slots');
