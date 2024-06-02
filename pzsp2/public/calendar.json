@@ -1,6 +1,6 @@
 [{
     "id": 0,
-    "startTime": "2024-05-27T09:00:00.000",
+    "startTime": "2024-05-31T09:00:00.000",
     "baseSlotQuantity": 8,
     "lastMarketPrice": 0,
     "users": [
@@ -14,8 +14,8 @@
   },
   {
     "id": 1,
-    "startTime": "2024-05-28T14:00:00.000",
-    "baseSlotQuantity": 3,
+    "startTime": "2024-06-01T14:00:00.000",
+    "baseSlotQuantity": 8,
     "lastMarketPrice": 0,
     "users": [
         {
@@ -28,13 +28,18 @@
   },
   {
     "id": 2,
-    "startTime": "2024-05-29T10:00:00.000",
-    "baseSlotQuantity": 6,
+    "startTime": "2024-06-02T10:00:00.000",
+    "baseSlotQuantity": 8,
     "lastMarketPrice": 0,
     "users": [
         {
             "login": "worker1",
             "name": "Adam",
+            "surname": "Kownacki"
+        },
+        {
+            "login": "worker2",
+            "name": "Marius",
             "surname": "Kownacki"
         }
     ],

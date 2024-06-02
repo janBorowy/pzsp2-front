@@ -66,12 +66,10 @@ const DragCalendar = () => {
                 const jsonEvents = JSON.parse(content);
                 const formattedEvents = jsonEvents.map(event => ({
                     id: event.id,
-                    // title: event.userLogin,
                     title: event.users.map(user => user.login).join(', '),
                     start: new Date(event.startTime),
                     end: new Date(new Date(event.startTime).getTime() + event.baseSlotQuantity * slotLength * 60000),
                     lastMarketPrice: event.lastMarketPrice,
-                    // userLogin: event.userLogin,
                     users: event.users,
                     scheduleId: event.scheduleId
                 }));
@@ -104,7 +102,7 @@ const DragCalendar = () => {
             startTime: event.start.toISOString(),
             baseSlotQuantity: (event.end.getTime() - event.start.getTime()) / (slotLength * 60000),
             lastMarketPrice: event.lastMarketPrice,
-            numberOfUsers: 0, //event.users.length,
+            numberOfUsers: 0,
             isUserSlot: true,
             users: event.users,
             scheduleId: event.scheduleId
@@ -116,7 +114,7 @@ const DragCalendar = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    // 'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(eventsToSend)
             });
@@ -141,7 +139,7 @@ const DragCalendar = () => {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    // 'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
                     id: scheduleId,
@@ -166,16 +164,23 @@ const DragCalendar = () => {
     };
 
     const eventPropGetter = (event) => {
+        let backgroundColor = '#4CAF50';
+        let color = 'white';
+        let border = '2px solid #388E3C';
         return {
             style: {
-                backgroundColor: '#4CAF50',
-            },
+                backgroundColor: backgroundColor,
+                color: color,
+                border: border,
+                borderRadius: '5px',
+                padding: '2px'
+            }
         };
     };
 
     const handleOptimizerSubmit = async (data) => {
-        // Implement the logic to handle form submission and make a POST request
         const login = localStorage.getItem('login');
+        const token = localStorage.getItem('token');
         if (!login) {
             console.error('No login found');
             return;
@@ -218,6 +223,7 @@ const DragCalendar = () => {
                 draggableAccessor={() => true}
                 startAccessor="start"
                 endAccessor="end"
+                views={{ month: false, week: true, day: true, agenda: true }}
                 eventPropGetter={eventPropGetter}
                 style={{ margin: '50px'}}
                 min={new Date().setHours(6, 0, 0)}
@@ -225,10 +231,13 @@ const DragCalendar = () => {
                 defaultView="week"
             />
             {showOptimizerPanel && (
-                <OptimizerPanel
-                    onSubmit={handleOptimizerSubmit}
-                    onClose={() => setShowOptimizerPanel(false)}
-                />
+               <>
+               <div className={styles.overlay}></div>
+               <OptimizerPanel
+                   onSubmit={handleOptimizerSubmit}
+                   onClose={() => setShowOptimizerPanel(false)}
+               />
+           </>
             )}
         </div>
     );

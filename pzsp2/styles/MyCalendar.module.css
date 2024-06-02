@@ -1,0 +1,9 @@
+.event {
+    border: 2px solid transparent;
+    border-radius: 5px;
+    padding: 2px;
+}
+
+.selected {
+    border-color: #FFD700 !important;
+}

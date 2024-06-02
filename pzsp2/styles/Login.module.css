@@ -1,25 +1,26 @@
 .loginContainer {
-    display: flex;
-    height: 100vh;
-    align-items: center;
-    justify-content: space-between;
-    position: relative;
-  }
-  
-  .leftSide {
-    width: 50%;
-    padding-left: 300px;  /* Dodaje padding po lewej stronie, aby odsunąć od krawędzi */
-  }
-  
-  .rightSide {
-    width: 50%;
-    padding-right: 400px;
-  }
-  .branding {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    font-size: 24px;
-    font-weight: bold;
-  }
-  
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  background: url('/cof2.png') no-repeat center center fixed;
+  background-size: cover;
+  padding-left: 400px;
+}
+
+.leftSide {
+  width: 100%;
+  max-width: 400px; 
+  background: rgba(255, 255, 255, 0.8); 
+  z-index: 2;
+}
+
+.branding {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 24px;
+  font-weight: bold;
+  z-index: 2;
+}

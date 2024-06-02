@@ -3,20 +3,23 @@ import styles from '../styles/WantOfferPanel.module.css';
 
 const WantOfferPanel = ({ onClose, slot, optimizationProcess }) => {
     const [price, setPrice] = useState('');
+    const [isWantOffer, setIsWantOffer] = useState(true);
 
     const handleSubmit = async () => {
         try {
             const login = localStorage.getItem('login');
+            const token = localStorage.getItem('token');
             const response = await fetch(`http://localhost:8080/tradeOffers/${login}`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({ 
                     price,
                     timeSlotId: slot.id,
-                    ifWantOffer: true,
-                    optimizationProcessId: optimizationProcess.id // Dodanie danych slotu do ciała żądania
+                    ifWantOffer: isWantOffer,
+                    optimizationProcessId: optimizationProcess.id
                 })
             });
             if (response.ok) {
@@ -35,7 +38,7 @@ const WantOfferPanel = ({ onClose, slot, optimizationProcess }) => {
     return (
         <div className={styles.offer}>
             <button className={styles.close} onClick={onClose}>X</button>
-            <h2>Oferta want</h2>
+            <h2>Oferta Want</h2>
             <label>
                 Cena:
                 <input
@@ -44,7 +47,17 @@ const WantOfferPanel = ({ onClose, slot, optimizationProcess }) => {
                     onChange={(e) => setPrice(e.target.value)}
                 />
             </label>
-            <button onClick={handleSubmit}>Zatwierdź</button>
+            <div className={styles.controls}>
+                <button onClick={handleSubmit}>Zatwierdź</button>
+                <label className={styles.switch}>
+                    Oferta CanDown
+                    <input
+                        type="checkbox"
+                        checked={!isWantOffer}
+                        onChange={(e) => setIsWantOffer(!e.target.checked)} // Odwróć logikę
+                    />
+                </label>
+            </div>
         </div>
     );
 };

@@ -7,10 +7,12 @@ const CanOfferPanel = ({ onClose, slot, optimizationProcess }) => {
     const handleSubmit = async () => {
         try {
             const login = localStorage.getItem('login');
+            const token = localStorage.getItem('token');
             const response = await fetch(`http://localhost:8080/tradeOffers/${login}`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({ 
                     price,

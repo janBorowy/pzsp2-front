@@ -14,7 +14,7 @@ const HomePage = () => {
     const [showConfirm, setShowConfirm] = useState(false);
     const [selectedSlot, setSelectedSlot] = useState(null);
     const [isAdmin, setIsAdmin] = useState(false);
-    const [optimizationProcess, setOptimizationProcess] = useState(null); // State to store fetched data
+    const [optimizationProcess, setOptimizationProcess] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -41,8 +41,7 @@ const HomePage = () => {
 
                 const data = await response.json();
                 console.log('Data fetched:', data);
-                setOptimizationProcess(data); // Store fetched data
-                // setEvents(data.events); // Assuming events are part of the fetched data
+                setOptimizationProcess(data);
             } catch (error) {
                 console.error('Failed to fetch data:', error);
             }
@@ -68,30 +67,25 @@ const HomePage = () => {
 
     const handleSelectSlot = (event) => {
         console.log("Wybrano slot:", event);
-        setSelectedSlot(event); // Ustawienie wybranego slotu
+        setSelectedSlot(event);
         setShowConfirm(true);
     };
 
     const handleOfferClose = () => {
         setShowConfirm(false);
-        setSelectedSlot(null); // Czyszczenie wybranego slotu przy zamykaniu
+        setSelectedSlot(null);
     };
 
     return (
         <Layout>
-            {/* <div className={style.centered}>
-                <div className={style.welcomeMessageContainer}>
-                    <h1>Grafik</h1>
-                </div>
-            </div> */}
             <div className={styles.ofertyHeader}>
                 <h1 className={styles.title}>Grafik</h1>
             </div>
             {optimizationProcess && (
-                    <div className={styles.offerDeadline}>
-                        <p>Offer Acceptance Deadline: {new Date(optimizationProcess.offerAcceptanceDeadline).toLocaleString()}</p>
-                    </div>
-                )}
+                <div className={styles.offerDeadline}>
+                    <p className={styles.offerDeadlineText}>Zbieranie ofert do: {new Date(optimizationProcess.offerAcceptanceDeadline).toLocaleString()}</p>
+                </div>
+            )}
             <div style={{ height: 800, marginBottom: 100}}>
                 {isAdmin === true ? (
                     <DragCalendar

@@ -30,6 +30,7 @@ function LoginBox() {
       localStorage.setItem('token', data.token);
       localStorage.setItem('isAdmin', data.isAdmin);
       localStorage.setItem('login', data.login);
+      localStorage.setItem('balance', data.balance);
       await router.push('/');
     } catch (error) {
       setError('Invalid credentials. Please try again.');
