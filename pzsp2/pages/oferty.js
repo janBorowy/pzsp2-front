@@ -34,7 +34,6 @@ const Oferty = () => {
         }
     }, [login, token]);
 
-    const openModal = () => setModalOpen(true);
     const closeModal = () => setModalOpen(false);
 
     const handleNewOffer = (newOffer) => {
@@ -46,8 +45,6 @@ const Oferty = () => {
         <Layout>
             <div className={styles.ofertyHeader}>
                 <h1 className={styles.title}>Oferty</h1>
-                {/* <button className={styles.button1} onClick={openModal}>Dodaj Ofertę</button>
-                <button className={styles.button2}>Optymalizuj</button> */}
             </div>
             {isModalOpen && <DodajOferteModal close={closeModal} submitOffer={handleNewOffer} />}
             <div className={styles.offersList}>

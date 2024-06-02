@@ -6,9 +6,15 @@ const OptimizerPanel = ({ onSubmit, onClose }) => {
     const [offerAcceptanceDeadline, setOfferAcceptanceDeadline] = useState('');
     const [optimizationTime, setOptimizationTime] = useState('');
 
+    const addHours = (date, hours) => {
+        const newDate = new Date(date);
+        newDate.setHours(newDate.getHours() + hours);
+        return newDate;
+    };
+
     const handleSubmit = async () => {
-        const formattedOfferAcceptanceDeadline = new Date(offerAcceptanceDeadline).toISOString();
-        const formattedOptimizationTime = new Date(optimizationTime).toISOString();
+        const formattedOfferAcceptanceDeadline = addHours(new Date(offerAcceptanceDeadline), 2).toISOString();
+        const formattedOptimizationTime = addHours(new Date(optimizationTime), 2).toISOString();
         const data = { offerAcceptanceDeadline: formattedOfferAcceptanceDeadline, optimizationTime: formattedOptimizationTime };
         await onSubmit(data);
         onClose();

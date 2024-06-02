@@ -10,7 +10,7 @@ import OptimizerPanel from './OptimizerPanel';
 const localizer = momentLocalizer(moment);
 const DraggableCalendar = withDragAndDrop(Calendar);
 
-const DragCalendar = () => {
+const DragCalendar = ({ optimizationProcess }) => {
     const [events, setEvents] = useState([]);
     const [slotLength, setSlotLength] = useState(null);
     const [showOptimizerPanel, setShowOptimizerPanel] = useState(false);
@@ -28,7 +28,7 @@ const DragCalendar = () => {
         }
 
         try {
-            const response = await fetch(`http://localhost:8080/schedules/${login}`,  {
+            const response = await fetch(`http://localhost:8080/schedules/${login}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -156,6 +156,25 @@ const DragCalendar = () => {
         }
     };
 
+    const runOptimizationProcess = async () => {
+        const token = localStorage.getItem('token');
+        try {
+            const response = await fetch(`http://localhost:8080/optimizationProcess/run/${optimizationProcess.id}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (!response.ok) {
+                throw new Error('Failed to run optimization process');
+            }
+            const result = await response.json();
+            console.log('Optimization process started:', result);
+        } catch (error) {
+            console.error('Error running optimization process:', error);
+        }
+    };
+
     const onEventDrop = ({ event, start, end }) => {
         const updatedEvent = { ...event, start, end };
         setEvents(prevEvents =>
@@ -191,6 +210,7 @@ const DragCalendar = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify(data),
             });
@@ -214,6 +234,7 @@ const DragCalendar = () => {
             />
             <button className={styles.button} onClick={handleButtonClick}>Wstaw grafik</button>
             <button className={styles.button} onClick={sendScheduleToBackend}>Zatwierdź grafik</button>
+            <button className={styles.optimizerButton} onClick={() => runOptimizationProcess()}>Uruchom optymalizator</button>
             <button className={styles.optimizerButton} onClick={() => setShowOptimizerPanel(true)}>Ustaw optymalizator</button>
             <DraggableCalendar
                 className={styles.calendar}

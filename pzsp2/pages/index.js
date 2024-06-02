@@ -93,6 +93,7 @@ const HomePage = () => {
                         onSelectSlot={handleSelectSlot}
                         onEventDrop={onEventDrop}
                         onEventResize={onEventResize}
+                        optimizationProcess={optimizationProcess}
                     />
                 ) : (
                     <MyCalendar
