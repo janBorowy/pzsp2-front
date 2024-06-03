@@ -29,7 +29,7 @@ const HomePage = () => {
 
             try {
                 console.log('Fetching data...');
-                const response = await fetch(`http://localhost:8080/optimizationProcess/nearest/${login}`, {
+                const response = await fetch(`http://localhost:8080/optimizationProcess/`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -76,18 +76,24 @@ const HomePage = () => {
         setSelectedSlot(null);
     };
 
+    const isAfterDeadline = optimizationProcess && new Date() > new Date(optimizationProcess.offerAcceptanceDeadline);
+
     return (
         <Layout>
             <div className={styles.ofertyHeader}>
                 <h1 className={styles.title}>Grafik</h1>
             </div>
             {optimizationProcess && (
-                <div className={styles.offerDeadline}>
-                    <p className={styles.offerDeadlineText}>Zbieranie ofert do: {new Date(optimizationProcess.offerAcceptanceDeadline).toLocaleString()}</p>
+                <div className={`${styles.offerDeadline} ${isAfterDeadline ? styles.offerDeadlineRed : styles.offerDeadlineGreen}`}>
+                    {isAfterDeadline ? (
+                        <p className={styles.offerDeadlineText}>Nie są zbierane aktualnie oferty</p>
+                    ) : (
+                        <p className={styles.offerDeadlineText}>Zbieranie ofert do: {new Date(optimizationProcess.offerAcceptanceDeadline).toLocaleString()}</p>
+                    )}
                 </div>
             )}
-            <div style={{ height: 800, marginBottom: 100}}>
-                {isAdmin === true ? (
+            <div style={{ height: 800, marginBottom: 100 }}>
+                {isAdmin ? (
                     <DragCalendar
                         events={events}
                         onSelectSlot={handleSelectSlot}
@@ -103,7 +109,7 @@ const HomePage = () => {
                         onEventResize={onEventResize}
                     />
                 )}
-                {showConfirm && selectedSlot && optimizationProcess && (
+                {showConfirm && selectedSlot && optimizationProcess && !isAfterDeadline && (
                     selectedSlot.isUserSlot ? (
                         <WantOfferPanel 
                             onClose={handleOfferClose} 

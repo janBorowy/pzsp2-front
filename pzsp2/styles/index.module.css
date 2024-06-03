@@ -14,18 +14,34 @@
 
 .offerDeadline {
     display: flex;
-    justify-content: center; /* Center horizontally */
+    justify-content: center;
     align-items: center;
     padding: 10px;
-    background-color: #e0f7fa; /* Light cyan background */
-    border: 1px solid #00796b; /* Dark teal border */
+    border: 1px solid;
     border-radius: 5px;
-    margin: 20px auto; /* Center the box horizontally with margin auto */
-    max-width: 600px; /* Max width of the box */
+    margin: 20px auto; 
+    max-width: 600px; 
+}
+
+.offerDeadlineGreen {
+    background-color: #e0f7fa;
+    border-color: #00796b; 
+}
+
+.offerDeadlineRed {
+    background-color: #ffebee; 
+    border-color: #d32f2f;
 }
 
 .offerDeadlineText {
     font-size: 18px;
-    color: #00796b; /* Dark teal color for the text */
     text-align: center;
+}
+
+.offerDeadlineGreen .offerDeadlineText {
+    color: #00796b;
+}
+
+.offerDeadlineRed .offerDeadlineText {
+    color: #d32f2f; 
 }

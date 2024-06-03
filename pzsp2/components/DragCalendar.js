@@ -206,8 +206,8 @@ const DragCalendar = ({ optimizationProcess }) => {
         }
         console.log("Submitted data:", data);
         try {
-            const response = await fetch(`http://localhost:8080/optimizationProcess/${login}`, {
-                method: 'POST',
+            const response = await fetch(`http://localhost:8080/optimizationProcess/`, {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`,

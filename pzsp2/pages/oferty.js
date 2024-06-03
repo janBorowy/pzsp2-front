@@ -23,6 +23,7 @@ const Oferty = () => {
                 }
 
                 const data = await response.json();
+                console.log(data);
                 setOffers(data);
             } catch (error) {
                 console.error('Failed to fetch offers:', error);
@@ -41,22 +42,45 @@ const Oferty = () => {
         closeModal();
     };
 
+    const renderOffersByStatus = (status) => {
+        return offers
+            .filter(offer => offer.status === status)
+            .map(offer => (
+                <div key={offer.id} className={styles.offerItem}>
+                    <h3>{offer.ifWantOffer ? 'Oferta Want' : 'Oferta Can'} {offer.id}</h3>
+                    <p><strong>Data rozpoczęcia:</strong> {new Date(offer.timeSlot.startTime).toLocaleString()}</p>
+                    <p><strong>Właściciel:</strong> {offer.userOwner.name} {offer.userOwner.surname}</p>
+                    <p><strong>Timeslot ID:</strong> {offer.timeSlot.id}</p>
+                    <p><strong>Cena:</strong> {offer.price} PLN</p>
+                </div>
+            ));
+    };
+
     return (
         <Layout>
             <div className={styles.ofertyHeader}>
                 <h1 className={styles.title}>Oferty</h1>
             </div>
             {isModalOpen && <DodajOferteModal close={closeModal} submitOffer={handleNewOffer} />}
-            <div className={styles.offersList}>
-                {offers.map((offer) => (
-                    <div key={offer.id} className={styles.offerItem}>
-                        <h3>{offer.ifWantOffer ? 'Oferta Want' : 'Oferta Can'} {offer.id}</h3>
-                        <p><strong>Data rozpoczęcia:</strong> {new Date(offer.timeSlot.startTime).toLocaleString()}</p>
-                        <p><strong>Właściciel:</strong> {offer.userOwner.name} {offer.userOwner.surname}</p>
-                        <p><strong>Timeslot ID:</strong> {offer.timeSlot.id}</p>
-                        <p><strong>Cena:</strong> {offer.price} PLN</p>
+            <div className={styles.offersContainer}>
+                <div className={styles.offersSection}>
+                    <h2>Aktywne</h2>
+                    <div className={styles.offersList}>
+                        {renderOffersByStatus('ACTIVE')}
                     </div>
-                ))}
+                </div>
+                <div className={styles.offersSection}>
+                    <h2>Zrealizowane Pozytywnie</h2>
+                    <div className={styles.offersList}>
+                        {renderOffersByStatus('POSITIVE_REALIZED')}
+                    </div>
+                </div>
+                <div className={styles.offersSection}>
+                    <h2>Zrealizowane Negatywnie</h2>
+                    <div className={styles.offersList}>
+                        {renderOffersByStatus('NEGATIVE_REALIZED')}
+                    </div>
+                </div>
             </div>
         </Layout>
     );
