@@ -6,11 +6,24 @@ import styles from '../styles/Oferty.module.css';
 const Oferty = () => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [offers, setOffers] = useState([]);
-    const login = localStorage.getItem('login');
-    const token = localStorage.getItem('token');
+    const [login, setLogin] = useState(null);
+    const [token, setToken] = useState(null);
+
+    useEffect(() => {
+        const fetchCredentials = () => {
+            const login = localStorage.getItem('login');
+            const token = localStorage.getItem('token');
+            setLogin(login);
+            setToken(token);
+        };
+
+        fetchCredentials();
+    }, []);
 
     useEffect(() => {
         const fetchOffers = async () => {
+            if (!login || !token) return;
+
             try {
                 const response = await fetch(`http://localhost:8080/tradeOffers/all/${login}`, {
                     headers: {
@@ -30,9 +43,7 @@ const Oferty = () => {
             }
         };
 
-        if (login && token) {
-            fetchOffers();
-        }
+        fetchOffers();
     }, [login, token]);
 
     const closeModal = () => setModalOpen(false);
@@ -42,16 +53,40 @@ const Oferty = () => {
         closeModal();
     };
 
+    const handleDeleteOffer = async (offerId) => {
+        if (!login || !token) return;
+
+        try {
+            const response = await fetch(`http://localhost:8080/tradeOffers/${offerId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to delete offer');
+            }
+
+            setOffers(offers.filter(offer => offer.id !== offerId));
+        } catch (error) {
+            console.error('Failed to delete offer:', error);
+        }
+    };
+
     const renderOffersByStatus = (status) => {
         return offers
             .filter(offer => offer.status === status)
             .map(offer => (
                 <div key={offer.id} className={styles.offerItem}>
+                    {status === 'ACTIVE' && (
+                        <button className={styles.deleteButton} onClick={() => handleDeleteOffer(offer.id)}>X</button>
+                    )}
                     <h3>{offer.ifWantOffer ? 'Oferta Want' : 'Oferta Can'} {offer.id}</h3>
                     <p><strong>Data rozpoczęcia:</strong> {new Date(offer.timeSlot.startTime).toLocaleString()}</p>
                     <p><strong>Właściciel:</strong> {offer.userOwner.name} {offer.userOwner.surname}</p>
                     <p><strong>Timeslot ID:</strong> {offer.timeSlot.id}</p>
-                    <p><strong>Cena:</strong> {offer.price} PLN</p>
+                    {status !== 'ACTIVE' && <p><strong>Cena:</strong> {offer.price} PLN</p>}
                 </div>
             ));
     };

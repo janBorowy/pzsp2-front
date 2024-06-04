@@ -96,10 +96,10 @@ const DragCalendar = ({ optimizationProcess }) => {
             console.error('No token found');
             return;
         }
-
+        console.log(events);
         const eventsToSend = events.map(event => ({
             id: 0,
-            startTime: event.start.toISOString(),
+            startTime: new Date(event.start.getTime() + 2 * 60 * 60 * 1000).toISOString(),
             baseSlotQuantity: (event.end.getTime() - event.start.getTime()) / (slotLength * 60000),
             lastMarketPrice: event.lastMarketPrice,
             numberOfUsers: 0,

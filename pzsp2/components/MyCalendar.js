@@ -23,9 +23,18 @@ const MyCalendar = ({ onSelectSlot }) => {
                 const formattedEvents = data.timeSlots.map(slot => {
                     let title;
                     if (slot.isUserSlot) {
-                        title = login;
+                        if (slot.numberOfUsers === 1) {
+                            title = login;
+                        }
+                        else {
+                            if (slot.numberOfUsers === 2) {
+                            title = `${login} + ${slot.numberOfUsers - 1} osoba`;}
+                            else {
+                                title = `${login} + ${slot.numberOfUsers - 1} osoby`;
+                            }
+                        }
                     } else {
-                        title = slot.numberOfUsers === 1 ? `${slot.numberOfUsers} osoba` : `${slot.numberOfUsers} osób`;
+                        title = slot.numberOfUsers === 1 ? `${slot.numberOfUsers} osoba` : `${slot.numberOfUsers} osoby`;
                     }
 
                     return {

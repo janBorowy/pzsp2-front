@@ -1,6 +1,6 @@
 [{
     "id": 0,
-    "startTime": "2024-05-31T09:00:00.000",
+    "startTime": "2024-06-03T06:00:00.000",
     "baseSlotQuantity": 8,
     "lastMarketPrice": 0,
     "users": [
@@ -14,7 +14,64 @@
   },
   {
     "id": 1,
-    "startTime": "2024-06-01T14:00:00.000",
+    "startTime": "2024-06-03T14:00:00.000",
+    "baseSlotQuantity": 8,
+    "lastMarketPrice": 0,
+    "users": [
+        {
+            "login": "worker2",
+            "name": "Mariusz",
+            "surname": "Kownacki"
+        }
+    ],
+    "scheduleId": 0
+  },
+  {
+    "id": 2,
+    "startTime": "2024-06-04T06:00:00.000",
+    "baseSlotQuantity": 8,
+    "lastMarketPrice": 0,
+    "users": [
+        {
+            "login": "worker1",
+            "name": "Adam",
+            "surname": "Kownacki"
+        },
+        {
+            "login": "worker2",
+            "name": "Mariusz",
+            "surname": "Kownacki"
+        },
+        {
+            "login": "worker3",
+            "name": "Mariusz",
+            "surname": "Nowak"
+        }
+    ],
+    "scheduleId": 0
+  },
+  {
+    "id": 3,
+    "startTime": "2024-06-04T14:00:00.000",
+    "baseSlotQuantity": 8,
+    "lastMarketPrice": 0,
+    "users": [
+        {
+            "login": "worker1",
+            "name": "Adam",
+            "surname": "Kownacki"
+        },
+        {
+            "login": "worker2",
+            "name": "Mariusz",
+            "surname": "Kownacki"
+        }
+    ],
+    "scheduleId": 0
+},
+{
+    "id": 4,
+    "startTime": "2024-06-05T06:00:00.000",
     "baseSlotQuantity": 8,
     "lastMarketPrice": 0,
     "users": [
@@ -27,20 +84,20 @@
     "scheduleId": 0
   },
   {
-    "id": 2,
-    "startTime": "2024-06-02T10:00:00.000",
+    "id": 5,
+    "startTime": "2024-06-05T14:00:00.000",
     "baseSlotQuantity": 8,
     "lastMarketPrice": 0,
     "users": [
         {
-            "login": "worker1",
-            "name": "Adam",
+            "login": "worker2",
+            "name": "Mariusz",
             "surname": "Kownacki"
         },
         {
-            "login": "worker2",
-            "name": "Marius",
-            "surname": "Kownacki"
+            "login": "worker3",
+            "name": "Mariusz",
+            "surname": "Nowak"
         }
     ],
     "scheduleId": 0

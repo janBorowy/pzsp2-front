@@ -37,7 +37,7 @@ const CanOfferPanel = ({ onClose, slot, optimizationProcess }) => {
     return (
         <div className={styles.offer}>
             <button className={styles.close} onClick={onClose}>X</button>
-            <h2>Oferta can</h2>
+            <h2>Oferta Can</h2>
             <label>
                 Cena:
                 <input
