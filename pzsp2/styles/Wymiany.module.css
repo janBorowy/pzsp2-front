@@ -1,0 +1,43 @@
+.tradesHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #ddd;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.tradesContainer {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.tradesList {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 0;
+    width: 100%;
+}
+
+.tradeItem {
+    position: relative;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 10px;
+    background-color: #fff;
+}
+
+.tradeItem h3, .tradeItem h4 {
+    margin-top: 0;
+}
+
+.tradeItem p {
+    margin: 5px 0;
+}

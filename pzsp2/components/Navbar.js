@@ -61,6 +61,7 @@ const Navbar = () => {
                 <img src="/logo.jpg" alt="Home Icon" className={styles.icon} />
                 <Link href="/" className={styles.link}>Home</Link>
                 <Link href="/oferty" className={styles.link}>Oferty</Link>
+                {/* <Link href="/wymiany" className={styles.link}>Wymiany</Link> */}
             </div>
             <div className={styles.right}>
                 {!isAdmin && (

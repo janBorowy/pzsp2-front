@@ -80,14 +80,14 @@ const DragCalendar = ({ optimizationProcess }) => {
     };
 
     const handleButtonClick = () => {
-        const slotLengthInput = prompt("Podaj długość slotu (w minutach):");
-        const parsedSlotLength = parseInt(slotLengthInput, 10);
-        if (!isNaN(parsedSlotLength)) {
-            setSlotLength(parsedSlotLength);
-            document.getElementById('fileInput').click();
-        } else {
-            alert("Proszę podać prawidłową liczbę.");
-        }
+        // const slotLengthInput = prompt("Podaj długość slotu (w minutach):");
+        // const parsedSlotLength = parseInt(slotLengthInput, 10);
+        // if (!isNaN(parsedSlotLength)) {
+        setSlotLength(60);
+        document.getElementById('fileInput').click();
+        // } else {
+        //     alert("Proszę podać prawidłową liczbę.");
+        // }
     };
 
     const sendScheduleToBackend = async () => {
@@ -123,7 +123,7 @@ const DragCalendar = ({ optimizationProcess }) => {
             }
             const data = await response.json();
             console.log('Schedule sent to backend:', data);
-
+            window.location.reload();
             if (data.length > 0 && data[0].scheduleId) {
                 const scheduleId = data[0].scheduleId;
                 await updateScheduleLength(scheduleId, slotLength, token);
@@ -143,7 +143,7 @@ const DragCalendar = ({ optimizationProcess }) => {
                 },
                 body: JSON.stringify({
                     id: scheduleId,
-                    slotLength: slotLength
+                    slotLength: 60 // slotLength
                 })
             });
             if (!response.ok) {
@@ -170,6 +170,7 @@ const DragCalendar = ({ optimizationProcess }) => {
             }
             const result = await response.json();
             console.log('Optimization process started:', result);
+            window.location.reload();
         } catch (error) {
             console.error('Error running optimization process:', error);
         }
@@ -219,6 +220,7 @@ const DragCalendar = ({ optimizationProcess }) => {
             }
             const result = await response.json();
             console.log('Optimizer data submitted:', result);
+            window.location.reload();
         } catch (error) {
             console.error('Error submitting optimizer data:', error);
         }
