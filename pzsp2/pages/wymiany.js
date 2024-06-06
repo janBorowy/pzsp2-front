@@ -34,6 +34,7 @@ const Wymiany = () => {
                 }
 
                 const data = await response.json();
+                console.log(data);
                 const tradeDetails = await Promise.all(data.map(async trade => {
                     const buyerResponse = await fetch(`http://localhost:8080/tradeoffers/${trade.buyer_offer_id}`, {
                         headers: {

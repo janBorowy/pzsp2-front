@@ -6,6 +6,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.scss';
 import styles from '../styles/DragCalendar.module.css';
 import OptimizerPanel from './OptimizerPanel';
+import EventComponentDrag from './EventComponentDrag'; // Import your custom event component
 
 const localizer = momentLocalizer(moment);
 const DraggableCalendar = withDragAndDrop(Calendar);
@@ -49,6 +50,7 @@ const DragCalendar = ({ optimizationProcess }) => {
                 login: slot.users.map(user => user.login).join(', '),
                 scheduleId: slot.scheduleId
             }));
+            
             setSlotLength(data.slotLength);
             setEvents(formattedEvents);
             console.log('Slots fetched:', formattedEvents);
@@ -252,6 +254,9 @@ const DragCalendar = ({ optimizationProcess }) => {
                 min={new Date().setHours(6, 0, 0)}
                 max={new Date().setHours(22, 0, 0)}
                 defaultView="week"
+                components={{
+                    event: EventComponentDrag
+                }}
             />
             {showOptimizerPanel && (
                <>
