@@ -13,12 +13,13 @@
   
   .eventPrice {
     position: absolute;
-    bottom: 20px; /* Adjust the bottom padding as needed */
-    right: 5px; /* Adjust the right padding as needed */
+    bottom: 20px;
+    right: 5px; 
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
     padding: 2px 5px;
     border-radius: 3px;
     font-size: 12px;
+    pointer-events: none;
   }
   
