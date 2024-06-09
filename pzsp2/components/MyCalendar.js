@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import EventComponent from './EventComponent'; 
+import EventComponent from './EventComponent';
 
 const localizer = momentLocalizer(moment);
 
@@ -92,7 +92,7 @@ const MyCalendar = ({ onSelectSlot }) => {
                 style={{ margin: '50px' }}
                 min={new Date().setHours(6, 0, 0)}
                 max={new Date().setHours(22, 0, 0)}
-                views={{ month: false, week: true, day: true, agenda: true }}
+                views={{ month: true, week: true, day: true, agenda: true }}
                 defaultView="week"
                 onSelectEvent={handleSelectEvent}
                 eventPropGetter={eventStyleGetter}

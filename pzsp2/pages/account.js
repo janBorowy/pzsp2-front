@@ -39,15 +39,15 @@ const Account = () => {
     return (
         <Layout>
                 <div className={styles.container}>
-            <h1 className={styles.title}>Account Details</h1>
+            <h1 className={styles.title}>Twoje konto</h1>
             <div className={styles.details}>
                 <p><strong>Login:</strong> {userData.login}</p>
-                <p><strong>Name:</strong> {userData.name}</p>
-                <p><strong>Surname:</strong> {userData.surname}</p>
+                <p><strong>Imię:</strong> {userData.name}</p>
+                <p><strong>Nazwisko:</strong> {userData.surname}</p>
                 <p><strong>Email:</strong> {userData.email}</p>
-                <p><strong>Balance:</strong> {userData.balance}</p>
-                <p><strong>Admin:</strong> {userData.ifAdmin ? 'Yes' : 'No'}</p>
-                <p><strong>Group ID:</strong> {userData.groupId}</p>
+                <p><strong>Saldo:</strong> {userData.balance}</p>
+                <p><strong>Admin:</strong> {userData.ifAdmin ? 'Tak' : 'Nie'}</p>
+                <p><strong>Grupa:</strong> {userData.groupId}</p>
             </div>
         </div>
         </Layout>

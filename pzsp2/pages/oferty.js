@@ -86,7 +86,7 @@ const Oferty = () => {
                     <p><strong>Data rozpoczęcia:</strong> {new Date(offer.timeSlot.startTime).toLocaleString()}</p>
                     <p><strong>Właściciel:</strong> {offer.userOwner.name} {offer.userOwner.surname}</p>
                     <p><strong>Timeslot ID:</strong> {offer.timeSlot.id}</p>
-                    {status !== 'ACTIVE' && <p><strong>Cena:</strong> {offer.price} PLN</p>}
+                    {status !== 'ACTIVE' && <p><strong>Cena:</strong> {offer.price} $</p>}
                 </div>
             ));
     };

@@ -65,19 +65,19 @@ const Wymiany = () => {
     const renderTradeDetails = (trade) => (
         <div key={trade.id} className={styles.tradeItem}>
             <h3>Trade ID: {trade.id}</h3>
-            <p><strong>Final Price:</strong> {trade.final_price} PLN</p>
+            <p><strong>Final Price:</strong> {trade.final_price} $</p>
             <p><strong>Timestamp:</strong> {new Date(trade.timestamp).toLocaleString()}</p>
             <div>
                 <h4>Buyer Offer</h4>
                 <p><strong>Offer ID:</strong> {trade.buyerOffer.id}</p>
                 <p><strong>Owner:</strong> {trade.buyerOffer.userOwner.name} {trade.buyerOffer.userOwner.surname}</p>
-                <p><strong>Price:</strong> {trade.buyerOffer.price} PLN</p>
+                <p><strong>Price:</strong> {trade.buyerOffer.price} $</p>
             </div>
             <div>
                 <h4>Seller Offer</h4>
                 <p><strong>Offer ID:</strong> {trade.sellerOffer.id}</p>
                 <p><strong>Owner:</strong> {trade.sellerOffer.userOwner.name} {trade.sellerOffer.userOwner.surname}</p>
-                <p><strong>Price:</strong> {trade.sellerOffer.price} PLN</p>
+                <p><strong>Price:</strong> {trade.sellerOffer.price} $</p>
             </div>
         </div>
     );

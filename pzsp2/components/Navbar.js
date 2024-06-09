@@ -12,7 +12,7 @@ const Navbar = () => {
         const fetchCurrency = async () => {
             const login = localStorage.getItem('login');
             const token = localStorage.getItem('token');
-            
+
             if (!login || !token) {
                 console.error('Login or token not found');
                 return;
@@ -67,7 +67,7 @@ const Navbar = () => {
                 {!isAdmin && (
                     <div className={styles.currency}>
                         <img src="/money.png" alt="Money Icon" className={styles.moneyIcon} />
-                        <span className={styles.currencyValue}>{currency} PLN</span>
+                        <span className={styles.currencyValue}>{currency} $</span>
                     </div>
                 )}
                 <button className={styles.button} onClick={goToAccount}>Konto</button>

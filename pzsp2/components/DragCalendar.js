@@ -7,6 +7,8 @@ import 'react-big-calendar/lib/addons/dragAndDrop/styles.scss';
 import styles from '../styles/DragCalendar.module.css';
 import OptimizerPanel from './OptimizerPanel';
 import EventComponentDrag from './EventComponentDrag'; // Import your custom event component
+import { ToastContainer, toast } from 'react-toastify';
+
 
 const localizer = momentLocalizer(moment);
 const DraggableCalendar = withDragAndDrop(Calendar);
@@ -50,7 +52,7 @@ const DragCalendar = ({ optimizationProcess }) => {
                 login: slot.users.map(user => user.login).join(', '),
                 scheduleId: slot.scheduleId
             }));
-            
+
             setSlotLength(data.slotLength);
             setEvents(formattedEvents);
             console.log('Slots fetched:', formattedEvents);
@@ -167,14 +169,18 @@ const DragCalendar = ({ optimizationProcess }) => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            if (!response.ok) {
-                throw new Error('Failed to run optimization process');
-            }
-            const result = await response.json();
-            console.log('Optimization process started:', result);
-            window.location.reload();
-        } catch (error) {
-            console.error('Error running optimization process:', error);
+            if (response.ok) {
+                const result = await response.json();
+                window.location.reload();
+                toast.success('Optymalizacja przebiegła pomyślnie!');
+                console.log('Optimization process started:', result);
+            } else {
+                console.log('Error');
+                toast.error('Błąd przy uruchamianiu grafiku!');
+                }
+                } catch (error) {
+                    console.error('Error running optimization process:', error);
+                    toast.error('Błąd przy uruchamianiu grafiku!');
         }
     };
 
@@ -220,6 +226,7 @@ const DragCalendar = ({ optimizationProcess }) => {
             if (!response.ok) {
                 throw new Error('Failed to submit optimizer data');
             }
+            toast.success('Optymalizacja przebiegła pomyślnie!');
             const result = await response.json();
             console.log('Optimizer data submitted:', result);
             window.location.reload();
@@ -248,7 +255,7 @@ const DragCalendar = ({ optimizationProcess }) => {
                 draggableAccessor={() => true}
                 startAccessor="start"
                 endAccessor="end"
-                views={{ month: false, week: true, day: true, agenda: true }}
+                views={{ month: true, week: true, day: true, agenda: true }}
                 eventPropGetter={eventPropGetter}
                 style={{ margin: '50px'}}
                 min={new Date().setHours(6, 0, 0)}

@@ -24,7 +24,7 @@ const OptimizerPanel = ({ onSubmit, onClose }) => {
         <div className={styles.panel}>
             <div className={styles.panelContent}>
                 <label>
-                    Deadline zbierania ofert:
+                    Zbieranie ofert do:
                     <input type="datetime-local" value={offerAcceptanceDeadline} onChange={(e) => setOfferAcceptanceDeadline(e.target.value)} />
                 </label>
                 <label>
